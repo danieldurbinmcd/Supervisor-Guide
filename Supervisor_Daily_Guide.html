@@ -2198,21 +2198,43 @@ function toggleDiagPanel(layer){
 // GOOGLE SHEETS INTEGRATION
 // Paste your Apps Script Web App URL below after deploying
 // ============================================================
-var SHEETS_URL = 'https://script.google.com/macros/s/AKfycbzUdI6ElfNiDj60u9FB7VE1k3oYBNRAoCEOPOUzC3i5bs2wd37zNmx1RbxTBUysHCOL/exec';
+var SHEETS_URL = 'https://script.google.com/macros/s/AKfycby050wKFJXfpn8iPTkWSwHtprXL1IdvRzqT6exOpgJE-n0cUgeM65QXot-wiaGV4aek/exec';
 
 function syncToSheets(type, data) {
-  if (!SHEETS_URL) return;  // Skip if URL not set
-  var profile = JSON.parse(localStorage.getItem(K_PROFILE) || '{}');
-  data.type       = type;
-  data.supervisor = profile.name   || '';
-  data.region     = profile.region || '';
+  if (!SHEETS_URL) return;
   try {
-    fetch(SHEETS_URL, {
-      method: 'POST',
-      mode:   'no-cors',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(data)
-    });
+    var profile = JSON.parse(localStorage.getItem(K_PROFILE) || '{}');
+    data.type       = type;
+    data.supervisor = profile.name   || '';
+    data.region     = profile.region || '';
+
+    // Use hidden iframe form POST -- bypasses CORS completely
+    var iframe = document.createElement('iframe');
+    iframe.name = 'sync_iframe_'+Date.now();
+    iframe.style.cssText = 'display:none;width:0;height:0;border:none;position:absolute;left:-9999px;';
+    document.body.appendChild(iframe);
+
+    var form = document.createElement('form');
+    form.method = 'POST';
+    form.action = SHEETS_URL;
+    form.target = iframe.name;
+    form.style.display = 'none';
+
+    // Encode all data as a single JSON field
+    var input = document.createElement('input');
+    input.type  = 'hidden';
+    input.name  = 'payload';
+    input.value = JSON.stringify(data);
+    form.appendChild(input);
+
+    document.body.appendChild(form);
+    form.submit();
+
+    // Clean up after submit
+    setTimeout(function(){
+      if(form.parentNode) form.parentNode.removeChild(form);
+      if(iframe.parentNode) iframe.parentNode.removeChild(iframe);
+    }, 5000);
   } catch(e) {
     console.warn('Sheets sync failed:', e);
   }
