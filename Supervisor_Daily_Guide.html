@@ -392,24 +392,25 @@ select{cursor:pointer;}
   <span id="noLocsMsg" style="font-size:11px;color:rgba(255,255,255,0.3);font-style:italic;">No locations set up yet &mdash; go to Setup tab</span>
 </div>
 <div class="nav">
-  <button class="nav-btn setup-btn" onclick="showTab('setup',this)">&#9881; Setup</button>
-  <button class="nav-btn active" onclick="showTab('flow',this)">Daily Flow</button>
-  <button class="nav-btn" onclick="showTab('labor',this)">1 — Labor Setup</button>
-  <button class="nav-btn" onclick="showTab('results',this)">2 — Evaluate Results</button>
-  <button class="nav-btn" onclick="showTab('diagnose',this)">3 — Diagnose</button>
-  <button class="nav-btn" onclick="showTab('focus',this)">4 — Focus 80/20</button>
-  <button class="nav-btn" onclick="showTab('develop',this)">5 — Develop GM</button>
+  <button class="nav-btn setup-btn active" onclick="showTab('setup',this)">&#9881; Setup</button>
+  <button class="nav-btn" onclick="showTab('labor',this)">1 &mdash; Labor</button>
+  <button class="nav-btn" onclick="showTab('results',this)">2 &mdash; Results</button>
+  <button class="nav-btn" onclick="showTab('diagnose',this)">3 &mdash; Diagnose</button>
+  <button class="nav-btn" onclick="showTab('focus',this)">4 &mdash; Focus</button>
+  <button class="nav-btn" onclick="showTab('develop',this)">5 &mdash; Develop GM</button>
   <button class="nav-btn" onclick="showTab('trends',this)">Trends</button>
   <button class="nav-btn" onclick="showTab('notes',this)">Notes &amp; Log</button>
+  <button class="nav-btn" onclick="showTab('flow',this)">&#10003; Daily Sign-Off</button>
   <button class="nav-btn" onclick="showTab('standards',this)">Standards</button>
 </div>
+
 
 <div id="toast"></div>
 
 <!-- ══ DAILY FLOW ══ -->
 
 <!-- SETUP TAB -->
-<div class="tab-page" id="page-setup">
+<div class="tab-page active" id="page-setup">
 <div class="page">
   <div class="setup-banner">
     <div class="setup-banner-title">Supervisor Setup</div>
@@ -445,7 +446,7 @@ select{cursor:pointer;}
 </div>
 </div>
 
-<div class="tab-page active" id="page-flow">
+<div class="tab-page" id="page-flow">
 <div class="page">
 
   <div class="progress-wrap">
@@ -465,7 +466,7 @@ select{cursor:pointer;}
     <div class="kpi-card">
       <div class="kpi-label">Supervisor</div>
       <div class="kpi-val" style="font-size:14px;" id="kpiSup">—</div>
-      <div class="kpi-sub">Active user</div>
+      <div class="kpi-sub" id="kpiRegion">—</div>
     </div>
     <div class="kpi-card">
       <div class="kpi-label">Steps Complete</div>
@@ -496,7 +497,7 @@ select{cursor:pointer;}
 
   <div class="step-card" data-num="1">
     <div class="step-num">Step 01</div>
-    <div class="step-title">Ensure Labor is Set Up to Win</div>
+    <div class="step-title">Labor Setup Complete</div>
     <div class="step-body">Labor is not a day-of activity. <strong>It is a system built in advance.</strong> If labor is wrong this week, the failure happened last week.</div>
     <ul class="checklist" id="cl-labor">
       <li onclick="toggle(this)"><span class="check-box"></span><span class="check-text">Reviewed next week's schedule with every GM (7+ days out)</span></li>
@@ -1261,7 +1262,9 @@ function locLabel(nsn){
     if(sn&&p.name)sn.value=p.name;
     if(sr&&p.region)sr.value=p.region;
     var ks=document.getElementById('kpiSup');
+    var kr=document.getElementById('kpiRegion');
     if(ks)ks.textContent=p.name||'--';
+    if(kr)kr.textContent=p.region||'--';
     document.addEventListener('DOMContentLoaded',function(){
       buildLocBar();
       renderLocSetup();
@@ -1274,9 +1277,10 @@ function saveProfile(){
   var r=document.getElementById('s_region')||document.getElementById('supPatch');
   var p={name:n?n.value:'',region:r?r.value:''};
   localStorage.setItem(K_PROFILE,JSON.stringify(p));
-  var ks=document.getElementById('kpiSup'),kp=document.getElementById('kpiSup');
+  var ks=document.getElementById('kpiSup');
+  var kr=document.getElementById('kpiRegion');
   if(ks)ks.textContent=p.name||'--';
-  if(kp)kp.textContent=p.region||'--';
+  if(kr)kr.textContent=p.region||'--';
 }
 
 //    Location setup                                                             
@@ -1441,7 +1445,7 @@ function updateProgress(){
     if(pf)pf.style.width=pct+'%';
     if(pp)pp.textContent=pct+'%';
     var stepsDone=0;
-    ['cl1','cl2','cl3','cl4','cl5'].forEach(function(id){
+    ['cl-labor','cl-results','cl-diagnose','cl-focus','cl-develop'].forEach(function(id){
       var c=document.getElementById(id);
       if(!c)return;
       var all=c.querySelectorAll('li');
@@ -1496,6 +1500,7 @@ function addLaborEntry(){
     unassigned:document.getElementById('l_unassigned').value,
     peak:document.getElementById('l_peak').value,
     notes:document.getElementById('l_notes').value,ts:nowFull()});
+  syncToSheets('labor', arr[0]);
   saveLog(K_LABOR,arr);
   ['l_week','l_tpph','l_hrs','l_vlh','l_notes'].forEach(function(id){var el=document.getElementById(id);if(el)el.value='';});
   document.getElementById('l_loc').value='';
@@ -1550,7 +1555,9 @@ function addResultEntry(){
     oepeL:document.getElementById('r_oepeL').value,
     oepeD:document.getElementById('r_oepeD').value,
     ops:document.getElementById('r_ops').value,ts:nowFull()};
-  var arr=getLog(K_RESULTS);arr.unshift(e);saveLog(K_RESULTS,arr);
+  var arr=getLog(K_RESULTS);arr.unshift(e);
+  syncToSheets('results', e);
+  saveLog(K_RESULTS,arr);
   renderResultsLog();renderTrends();toast('Results saved -- '+locLabel(loc));
 }
 
@@ -1594,6 +1601,7 @@ function addDiagEntry(){
     brk:document.getElementById('d_break').value,
     owner:document.getElementById('d_owner').value,
     followdate:(document.getElementById('d_followdate')||{}).value||'',ts:nowFull()});
+  syncToSheets('diag', arr[0]);
   saveLog(K_DIAG,arr);renderDiagLog();toast('Diagnosis logged -- '+locLabel(loc));
 }
 
@@ -1639,6 +1647,7 @@ function addGMConvo(){
     clarity:document.getElementById('gm_clarity').value,
     own:document.getElementById('gm_own').value,
     followup:document.getElementById('gm_followup').value,ts:nowFull()});
+  syncToSheets('gm', arr[0]);
   saveLog(K_GM,arr);renderGMLog();toast('Conversation logged');
 }
 
@@ -1684,6 +1693,8 @@ function renderGMLog(){
       var el=document.getElementById(id);
       if(el&&f[id]&&typeof f[id]==='string')el.value=f[id];
     });
+    var kf=document.getElementById('kpiFocus');
+    if(kf&&f.sp1)kf.textContent=f.sp1.length>22?f.sp1.substring(0,22)+'...':f.sp1;
   }catch(ex){console.warn('loadFocus error:',ex);localStorage.removeItem(K_FOCUS);}
 })();
 
@@ -1692,6 +1703,7 @@ function saveFocus(){
   var f={};
   ids.forEach(function(id){var el=document.getElementById(id);if(el)f[id]=el.value;});
   localStorage.setItem(K_FOCUS,JSON.stringify(f));
+  syncToSheets('focus', f);
   var sc=document.getElementById('focusSummaryContent');
   if(sc){
     sc.innerHTML='<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">'+
@@ -1705,6 +1717,8 @@ function saveFocus(){
   }
   var fs=document.getElementById('focusSummary');
   if(fs)fs.style.display='block';
+  var kf=document.getElementById('kpiFocus');
+  if(kf)kf.textContent=f.sp1?(f.sp1.length>22?f.sp1.substring(0,22)+'...':f.sp1):'Not set';
   toast('Focus priorities saved');
 }
 
@@ -1724,6 +1738,7 @@ function saveNotes(){
     ts:nowFull()
   });
   if(arr.length>60)arr=arr.slice(0,60);
+  syncToSheets('notes', arr[0]);
   saveLog(K_NOTES,arr);renderNotesLog();
   var ns=document.getElementById('notesSaved');
   if(ns)ns.textContent='Saved '+(new Date().toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'}));
@@ -1966,7 +1981,7 @@ function exportDailyPDF(){
   var notesToday  =todayEntries(K_NOTES);
 
   var stepNames=['Labor Setup','Evaluate Results','Diagnose System','Focus 80/20','Develop GM'];
-  var stepIds  =['cl1','cl2','cl3','cl4','cl5'];
+  var stepIds  =['cl-labor','cl-results','cl-diagnose','cl-focus','cl-develop'];
   var stepMax  =[5,4,4,4,4];
   var stepStatus=stepIds.map(function(id,i){
     var done=0;for(var j=0;j<stepMax[i];j++){if(checks[id+'_'+j])done++;}
@@ -2176,6 +2191,31 @@ function toggleDiagPanel(layer){
       pill.style.color=inactiveStyle.color;
     }
   });
+}
+
+
+// ============================================================
+// GOOGLE SHEETS INTEGRATION
+// Paste your Apps Script Web App URL below after deploying
+// ============================================================
+var SHEETS_URL = 'https://script.google.com/macros/s/AKfycbzUdI6ElfNiDj60u9FB7VE1k3oYBNRAoCEOPOUzC3i5bs2wd37zNmx1RbxTBUysHCOL/exec';
+
+function syncToSheets(type, data) {
+  if (!SHEETS_URL) return;  // Skip if URL not set
+  var profile = JSON.parse(localStorage.getItem(K_PROFILE) || '{}');
+  data.type       = type;
+  data.supervisor = profile.name   || '';
+  data.region     = profile.region || '';
+  try {
+    fetch(SHEETS_URL, {
+      method: 'POST',
+      mode:   'no-cors',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(data)
+    });
+  } catch(e) {
+    console.warn('Sheets sync failed:', e);
+  }
 }
 
 
