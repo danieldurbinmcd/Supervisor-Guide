@@ -1453,11 +1453,13 @@ function updateProgress(){
   }catch(e){console.warn('updateProgress:',e);}
 }
 
+function saveProgress(){saveChecks();}
 function saveChecks(){
   toast('Progress saved -- '+(new Date().toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'})));
   var ls=document.getElementById('lastSaved');
   if(ls)ls.textContent='Saved '+(new Date().toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'}));
 }
+function clearDay(){clearChecks();}
 function clearChecks(){
   if(!confirm('Clear today\'s checklist?'))return;
   localStorage.removeItem(K_CHECKS);checks={};
