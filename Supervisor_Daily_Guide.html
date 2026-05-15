@@ -1,0 +1,2095 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Supervisor Daily Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --ink:#0d0d14;
+  --ink2:#1a1a2e;
+  --surface:#f7f5f0;
+  --warm:#faf8f3;
+  --card:#ffffff;
+  --border:#e2ddd4;
+  --muted:#9a9590;
+  --dim:#c5c0b8;
+  --gold:#c9a84c;
+  --gold-light:#f0e4c0;
+  --green:#1c6b3a;
+  --green-bg:#e8f4ed;
+  --amber:#b07d1a;
+  --amber-bg:#fdf4e0;
+  --red:#b83232;
+  --red-bg:#fdeaea;
+  --blue:#1e4fa8;
+  --blue-bg:#e8eefb;
+  --accent:#c9a84c;
+}
+
+body{
+  font-family:DM Sans,sans-serif;
+  background:var(--surface);
+  color:var(--ink);
+  min-height:100vh;
+}
+
+/* ── Header ── */
+.header{
+  background:var(--ink2);
+  padding:32px 40px 28px;
+  position:relative;
+  overflow:hidden;
+}
+.header::before{
+  content:'';
+  position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(201,168,76,0.12) 0%,transparent 60%);
+  pointer-events:none;
+}
+.header::after{
+  content:'MULTIPLY';
+  position:absolute;right:-20px;top:50%;transform:translateY(-50%);
+  font-family:Playfair Display,serif;font-size:120px;font-weight:900;
+  color:rgba(255,255,255,0.03);letter-spacing:-4px;pointer-events:none;
+}
+.h-eyebrow{
+  font-family:DM Mono,monospace;font-size:10px;letter-spacing:.25em;
+  text-transform:uppercase;color:var(--gold);margin-bottom:8px;
+}
+.h-title{
+  font-family:Playfair Display,serif;font-size:32px;font-weight:700;
+  color:#fff;line-height:1.1;margin-bottom:6px;
+}
+.h-sub{font-size:13px;color:rgba(255,255,255,0.45);}
+.h-date{
+  position:absolute;top:32px;right:40px;
+  font-family:DM Mono,monospace;font-size:11px;color:rgba(255,255,255,0.35);
+  text-align:right;line-height:1.6;
+}
+
+/* ── Nav ── */
+.nav{
+  background:var(--ink);
+  display:flex;overflow-x:auto;flex-wrap:nowrap;
+  border-bottom:1px solid rgba(255,255,255,0.06);
+}
+.nav-btn{
+  padding:13px 20px;
+  font-family:DM Sans,sans-serif;font-size:12px;font-weight:600;
+  letter-spacing:.04em;text-transform:uppercase;
+  color:rgba(255,255,255,0.4);
+  border:none;background:none;cursor:pointer;
+  white-space:nowrap;
+  border-bottom:2px solid transparent;margin-bottom:-1px;
+  transition:all .2s;
+}
+.nav-btn:hover{color:rgba(255,255,255,0.75);}
+.nav-btn.active{color:var(--gold);border-bottom-color:var(--gold);}
+.tab-page{display:none;}.tab-page.active{display:block;}
+
+/* ── Layout ── */
+.page{max-width:1100px;margin:0 auto;padding:32px 36px 80px;}
+
+/* ── Section titles ── */
+.sec{
+  font-family:DM Mono,monospace;font-size:10px;font-weight:500;
+  text-transform:uppercase;letter-spacing:.18em;color:var(--muted);
+  margin-bottom:16px;display:flex;align-items:center;gap:12px;
+}
+.sec::after{content:'';flex:1;height:1px;background:var(--border);}
+
+/* ── Step cards ── */
+.step-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:12px;padding:22px 26px;margin-bottom:16px;
+  position:relative;overflow:hidden;
+}
+.step-card::before{
+  content:attr(data-num);
+  position:absolute;right:20px;top:50%;transform:translateY(-50%);
+  font-family:Playfair Display,serif;font-size:72px;font-weight:900;
+  color:rgba(0,0,0,0.04);line-height:1;pointer-events:none;
+}
+.step-num{
+  font-family:DM Mono,monospace;font-size:10px;font-weight:500;
+  letter-spacing:.15em;text-transform:uppercase;color:var(--gold);
+  margin-bottom:6px;
+}
+.step-title{
+  font-family:Playfair Display,serif;font-size:19px;font-weight:700;
+  color:var(--ink);margin-bottom:8px;
+}
+.step-body{font-size:13px;color:var(--muted);line-height:1.75;}
+.step-body strong{color:var(--ink);}
+
+/* ── Checklist ── */
+.checklist{list-style:none;margin:16px 0 0;}
+.checklist li{
+  display:flex;align-items:flex-start;gap:12px;
+  padding:10px 14px;border-radius:8px;margin-bottom:4px;
+  cursor:pointer;transition:background .15s;
+  font-size:13px;color:var(--ink);line-height:1.5;
+  border:1px solid transparent;
+  user-select:none;
+}
+.checklist li:hover{background:#f9f7f2;border-color:var(--border);}
+.checklist li.done{color:var(--muted);background:#f4f2ed;}
+.checklist li.done .check-box{background:var(--green);border-color:var(--green);}
+.checklist li.done .check-box::after{opacity:1;}
+.checklist li.done .check-text{text-decoration:line-through;}
+.check-box{
+  width:18px;height:18px;border-radius:4px;
+  border:2px solid var(--border);background:#fff;
+  flex-shrink:0;position:relative;margin-top:1px;
+  transition:all .15s;
+}
+.check-box::after{
+  content:'';position:absolute;
+  left:4px;top:1px;width:6px;height:10px;
+  border:2px solid #fff;border-top:none;border-left:none;
+  transform:rotate(45deg);opacity:0;transition:opacity .1s;
+}
+
+/* ── Input groups ── */
+.input-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px;}
+.input-group{display:flex;flex-direction:column;gap:5px;}
+.input-group.full{grid-column:1/-1;}
+label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);}
+input[type=text],input[type=number],select,textarea{
+  font-family:DM Sans,sans-serif;font-size:13px;color:var(--ink);
+  background:#faf9f7;border:1px solid var(--border);
+  border-radius:8px;padding:9px 12px;
+  transition:border-color .15s,box-shadow .15s;
+  outline:none;width:100%;
+}
+input:focus,select:focus,textarea:focus{
+  border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,168,76,0.12);
+}
+textarea{resize:vertical;min-height:72px;line-height:1.6;}
+select{cursor:pointer;}
+
+/* ── KPI strip ── */
+.kpi-strip{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:10px;margin-bottom:24px;
+}
+.kpi-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:10px;padding:14px 16px;
+}
+.kpi-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:6px;}
+.kpi-val{
+  font-family:DM Mono,monospace;font-size:22px;font-weight:500;
+  color:var(--ink);line-height:1;
+}
+.kpi-val.green{color:var(--green);}
+.kpi-val.amber{color:var(--amber);}
+.kpi-val.red{color:var(--red);}
+.kpi-sub{font-size:11px;color:var(--dim);margin-top:4px;}
+
+/* ── Diagnosis matrix ── */
+.matrix{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:0;border:1px solid var(--border);border-radius:12px;
+  overflow:hidden;margin-bottom:24px;
+}
+.matrix-cell{
+  padding:20px 22px;border:1px solid var(--border);
+}
+.matrix-cell:nth-child(1){border-left:none;border-top:none;background:#e8f4ed;}
+.matrix-cell:nth-child(2){border-top:none;background:#fdf4e0;}
+.matrix-cell:nth-child(3){border-left:none;border-bottom:none;background:#fdf4e0;}
+.matrix-cell:nth-child(4){border-bottom:none;background:#fdeaea;}
+.matrix-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px;}
+.matrix-cell:nth-child(1) .matrix-label{color:var(--green);}
+.matrix-cell:nth-child(2) .matrix-label,.matrix-cell:nth-child(3) .matrix-label{color:var(--amber);}
+.matrix-cell:nth-child(4) .matrix-label{color:var(--red);}
+.matrix-title{font-family:Playfair Display,serif;font-size:15px;font-weight:700;margin-bottom:5px;color:var(--ink);}
+.matrix-body{font-size:12px;color:var(--muted);line-height:1.6;}
+
+/* ── Tags ── */
+.tag{
+  display:inline-block;padding:3px 10px;border-radius:20px;
+  font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+}
+.tag-green{background:var(--green-bg);color:var(--green);}
+.tag-amber{background:var(--amber-bg);color:var(--amber);}
+.tag-red{background:var(--red-bg);color:var(--red);}
+.tag-gold{background:var(--gold-light);color:#7a5a0a;}
+.tag-blue{background:var(--blue-bg);color:var(--blue);}
+
+/* ── Conversation builder ── */
+.convo-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:12px;overflow:hidden;margin-bottom:16px;
+}
+.convo-hdr{
+  padding:14px 20px;background:var(--ink2);
+  display:flex;justify-content:space-between;align-items:center;
+}
+.convo-hdr-title{font-family:Playfair Display,serif;font-size:15px;font-weight:700;color:#fff;}
+.convo-body{padding:20px;}
+.convo-q{
+  font-size:13px;font-weight:600;color:var(--ink);
+  margin-bottom:8px;padding-left:16px;border-left:3px solid var(--gold);
+}
+.convo-a{
+  font-family:DM Mono,monospace;font-size:12px;color:var(--muted);
+  margin-bottom:16px;padding-left:16px;font-style:italic;
+}
+
+/* ── Progress bar ── */
+.progress-wrap{margin-bottom:24px;}
+.progress-label{
+  display:flex;justify-content:space-between;
+  font-size:12px;color:var(--muted);margin-bottom:6px;
+}
+.progress-track{
+  height:6px;background:#e8e4dc;border-radius:3px;overflow:hidden;
+}
+.progress-fill{
+  height:100%;background:linear-gradient(90deg,var(--gold),#e8c06a);
+  border-radius:3px;transition:width .4s ease;
+}
+
+/* ── Principle cards ── */
+.principles{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px;}
+.principle{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:10px;padding:16px 18px;
+  position:relative;
+}
+.principle.weak{border-left:3px solid var(--red);}
+.principle.strong{border-left:3px solid var(--green);}
+.principle-tag{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px;}
+.principle.weak .principle-tag{color:var(--red);}
+.principle.strong .principle-tag{color:var(--green);}
+.principle-item{font-size:12px;color:var(--muted);line-height:2;padding-left:14px;position:relative;}
+.principle-item::before{content:'';position:absolute;left:2px;top:9px;width:5px;height:5px;border-radius:50%;background:var(--dim);}
+.principle.strong .principle-item::before{background:var(--green);}
+.principle.weak .principle-item::before{background:var(--red);}
+
+/* ── Save button ── */
+.btn{
+  font-family:DM Sans,sans-serif;font-size:12px;font-weight:600;
+  letter-spacing:.06em;text-transform:uppercase;
+  padding:10px 20px;border-radius:8px;border:none;cursor:pointer;
+  transition:all .15s;
+}
+.btn-gold{background:var(--gold);color:var(--ink);}
+.btn-gold:hover{background:#b8943c;transform:translateY(-1px);box-shadow:0 4px 12px rgba(201,168,76,0.3);}
+.btn-outline{background:transparent;border:1px solid var(--border);color:var(--muted);}
+.btn-outline:hover{border-color:var(--ink);color:var(--ink);}
+.btn-row{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap;align-items:center;}
+
+/* ── Toast ── */
+#toast{
+  position:fixed;bottom:28px;right:28px;
+  background:var(--ink);color:#fff;
+  padding:12px 20px;border-radius:8px;font-size:13px;
+  box-shadow:0 8px 24px rgba(0,0,0,0.25);
+  transform:translateY(20px);opacity:0;
+  transition:all .3s;pointer-events:none;z-index:9999;
+}
+#toast.show{transform:translateY(0);opacity:1;}
+
+/* ── Focus items ── */
+.focus-item{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:10px;padding:16px 18px;margin-bottom:10px;
+  display:flex;gap:16px;align-items:flex-start;
+}
+.focus-num{
+  font-family:Playfair Display,serif;font-size:28px;font-weight:900;
+  color:var(--gold-light);line-height:1;flex-shrink:0;width:28px;
+  text-align:center;
+}
+.ownership-chain{
+  display:flex;align-items:center;gap:0;
+  background:var(--card);border:1px solid var(--border);
+  border-radius:10px;overflow:hidden;margin-bottom:24px;
+}
+.chain-step{
+  flex:1;padding:16px 14px;text-align:center;
+  border-right:1px solid var(--border);
+}
+.chain-step:last-child{border-right:none;}
+.chain-arrow{
+  font-size:16px;color:var(--dim);
+  padding:0 4px;flex-shrink:0;
+}
+.chain-icon{font-size:22px;margin-bottom:4px;}
+.chain-label{font-family:Playfair Display,serif;font-size:13px;font-weight:700;color:var(--ink);margin-bottom:3px;}
+.chain-sub{font-size:11px;color:var(--muted);}
+.chain-step.active-chain{background:linear-gradient(135deg,rgba(201,168,76,0.08),transparent);}
+
+/* ── Notes area ── */
+.sticky-note{
+  background:#fffde7;border:1px solid #f0e07a;
+  border-radius:10px;padding:16px 18px;margin-bottom:16px;
+}
+
+@media(max-width:800px){
+  .kpi-strip{grid-template-columns:repeat(2,1fr);}
+  .input-grid{grid-template-columns:1fr;}
+  .principles{grid-template-columns:1fr;}
+  .matrix{grid-template-columns:1fr;}
+  .page{padding:20px 16px 60px;}
+  .header{padding:22px 20px 20px;}
+  .h-date{display:none;}
+}
+
+/* Location bar */
+.loc-bar{background:var(--ink);border-bottom:1px solid rgba(255,255,255,0.08);padding:9px 32px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.loc-bar-label{font-family:DM Mono,monospace;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,0.3);white-space:nowrap;}
+.loc-pill{padding:5px 14px;border-radius:18px;border:1px solid rgba(255,255,255,0.12);background:transparent;color:rgba(255,255,255,0.4);font-size:11px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;transition:all .15s;white-space:nowrap;}
+.loc-pill:hover{border-color:rgba(255,255,255,0.35);color:rgba(255,255,255,0.75);}
+.loc-pill.active{background:var(--gold);border-color:var(--gold);color:var(--ink);}
+.loc-pill.all-pill.active{background:#fff;border-color:#fff;color:var(--ink);}
+.setup-banner{background:linear-gradient(135deg,#1a2a5e,#0d0f1c);border-radius:12px;padding:20px 24px;margin-bottom:20px;}
+.setup-banner-title{font-family:Playfair Display,serif;font-size:17px;font-weight:700;color:#fff;margin-bottom:5px;}
+.setup-banner-sub{font-size:12px;color:rgba(255,255,255,0.45);line-height:1.6;}
+.loc-setup-card{background:var(--card);border:1px solid var(--border);border-radius:9px;padding:13px 16px;margin-bottom:9px;display:flex;align-items:center;gap:12px;}
+.loc-setup-num{font-family:Playfair Display,serif;font-size:24px;font-weight:900;color:var(--gold-light);width:26px;text-align:center;flex-shrink:0;}
+.loc-setup-del{background:none;border:none;color:var(--dim);cursor:pointer;font-size:17px;padding:3px;flex-shrink:0;}
+.loc-setup-del:hover{color:var(--red);}
+.trend-table{width:100%;border-collapse:collapse;}
+.trend-table th{padding:8px 10px;text-align:left;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,0.55);background:var(--ink2);}
+.trend-table th.r{text-align:right;}
+.trend-table td{padding:8px 10px;font-size:12px;border-top:1px solid var(--border);}
+.trend-table td.r{text-align:right;font-family:DM Mono,monospace;font-size:11px;}
+.trend-table tr:hover td{background:#faf8f4;}
+.nav-btn.setup-btn{color:rgba(255,255,255,0.6);}
+.nav-btn.setup-btn.active{color:#60a5fa;border-bottom-color:#60a5fa;}
+.btn-blue{background:#1a5fa8;color:#fff;}
+.btn-blue:hover{background:#1a3f8a;}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="h-date" id="headerDate"></div>
+  <div class="h-eyebrow">Multiplying Ownership</div>
+  <div class="h-title">Supervisor Daily Guide</div>
+  <div class="h-sub">Leadership through visibility, diagnosis, and development</div>
+</div>
+
+
+<div class="loc-bar" id="locBar">
+  <span class="loc-bar-label">Viewing:</span>
+  <button class="loc-pill all-pill active" onclick="setLoc('ALL',this)">All Locations</button>
+  <span id="locPills"></span>
+  <span id="noLocsMsg" style="font-size:11px;color:rgba(255,255,255,0.3);font-style:italic;">No locations set up yet &mdash; go to Setup tab</span>
+</div>
+<div class="nav">
+  <button class="nav-btn setup-btn" onclick="showTab('setup',this)">&#9881; Setup</button>
+  <button class="nav-btn active" onclick="showTab('flow',this)">Daily Flow</button>
+  <button class="nav-btn" onclick="showTab('labor',this)">1 — Labor Setup</button>
+  <button class="nav-btn" onclick="showTab('results',this)">2 — Evaluate Results</button>
+  <button class="nav-btn" onclick="showTab('diagnose',this)">3 — Diagnose</button>
+  <button class="nav-btn" onclick="showTab('focus',this)">4 — Focus 80/20</button>
+  <button class="nav-btn" onclick="showTab('develop',this)">5 — Develop GM</button>
+  <button class="nav-btn" onclick="showTab('trends',this)">Trends</button>
+  <button class="nav-btn" onclick="showTab('notes',this)">Notes &amp; Log</button>
+  <button class="nav-btn" onclick="showTab('standards',this)">Standards</button>
+</div>
+
+<div id="toast"></div>
+
+<!-- ══ DAILY FLOW ══ -->
+
+<!-- SETUP TAB -->
+<div class="tab-page" id="page-setup">
+<div class="page">
+  <div class="setup-banner">
+    <div class="setup-banner-title">Supervisor Setup</div>
+    <div class="setup-banner-sub">Enter your profile and add each location by NSN. Order here controls how locations appear in the switcher bar and all dropdowns throughout the guide. Use arrows to reorder. Data persists in your browser.</div>
+  </div>
+  <div class="sec">Supervisor Profile</div>
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:18px 22px;margin-bottom:22px;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:11px;">
+      <div class="input-group"><label>Supervisor Name</label><input type="text" id="s_name" placeholder="Your full name" oninput="saveProfile()"></div>
+      <div class="input-group"><label>Region / Patch</label><input type="text" id="s_region" placeholder="e.g. Georgia -- Braulio Patch" oninput="saveProfile()"></div>
+      
+    </div>
+  </div>
+  <div class="sec">My Locations (NSN)</div>
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:18px 22px;margin-bottom:14px;">
+    <div style="font-size:12px;color:var(--muted);margin-bottom:14px;line-height:1.6;">Add each location in your patch by NSN. The order you set here determines how they appear in all location selectors and the switcher bar at the top.</div>
+    <div style="display:grid;grid-template-columns:90px 1fr 1fr 110px 70px;gap:10px;align-items:end;">
+      <div class="input-group"><label>NSN</label><input type="text" id="a_nsn" placeholder="7562" maxlength="6"></div>
+      <div class="input-group"><label>Location Name</label><input type="text" id="a_name" placeholder="e.g. 4th Ave"></div>
+      <div class="input-group"><label>GM Name</label><input type="text" id="a_gm" placeholder="GM name"></div>
+      <div class="input-group"><label>TPPH Target</label><input type="number" id="a_tpph" placeholder="6.00" step="0.1"></div>
+      <div class="input-group"><label>&nbsp;</label><button class="btn btn-gold" onclick="addLoc()" style="width:100%;">+ Add</button></div>
+    </div>
+  </div>
+  <div id="locSetupList"><div class="empty">No locations added yet. Enter an NSN above to get started.</div></div>
+  <div class="btn-row" style="margin-top:14px;">
+    <button class="btn btn-gold" onclick="saveProfile();buildLocBar();toast('Setup saved');">Save Setup</button>
+    <button class="btn btn-outline" onclick="if(confirm('Reset all setup?')){resetSetup();}">Reset</button>
+  </div>
+  <div style="background:var(--gold-light);border:1px solid #d4b86a;border-radius:9px;padding:13px 18px;margin-top:18px;font-size:12px;color:#5a3e00;line-height:1.7;">
+    <strong>How it works:</strong> Once locations are set up, use the <strong>viewing bar</strong> above every tab to switch between locations or view all at once. All logs, checklists, trends, and notes will filter to your active selection.
+  </div>
+</div>
+</div>
+
+<div class="tab-page active" id="page-flow">
+<div class="page">
+
+  <div class="progress-wrap">
+    <div class="progress-label">
+      <span>Daily Completion</span>
+      <span id="progressPct">0%</span>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+  </div>
+
+  <div class="kpi-strip">
+    <div class="kpi-card">
+      <div class="kpi-label">Today</div>
+      <div class="kpi-val" id="kpiDate">—</div>
+      <div class="kpi-sub" id="kpiDay">—</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Supervisor</div>
+      <div class="kpi-val" style="font-size:14px;" id="kpiSup">—</div>
+      <div class="kpi-sub">Active user</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Steps Complete</div>
+      <div class="kpi-val green" id="kpiSteps">0 / 5</div>
+      <div class="kpi-sub">Daily guide steps</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Focus Priority</div>
+      <div class="kpi-val amber" style="font-size:13px;" id="kpiFocus">Not set</div>
+      <div class="kpi-sub">Top system problem</div>
+    </div>
+  </div>
+
+  <div style="margin-bottom:16px;">
+    <div class="input-grid" style="grid-template-columns:1fr 1fr;max-width:500px;">
+      <div class="input-group">
+        <label>Your Name</label>
+        <input type="text" id="supName" placeholder="Supervisor name" oninput="saveProfile()">
+      </div>
+      <div class="input-group">
+        <label>Location / Patch</label>
+        <input type="text" id="supPatch" placeholder="e.g. GA — Braulio patch" oninput="saveProfile()">
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">The 5 Non-Negotiable Daily Steps</div>
+
+  <div class="step-card" data-num="1">
+    <div class="step-num">Step 01</div>
+    <div class="step-title">Ensure Labor is Set Up to Win</div>
+    <div class="step-body">Labor is not a day-of activity. <strong>It is a system built in advance.</strong> If labor is wrong this week, the failure happened last week.</div>
+    <ul class="checklist" id="cl-labor">
+      <li onclick="toggle(this)"><span class="check-box"></span><span class="check-text">Reviewed next week's schedule with every GM (7+ days out)</span></li>
+      <li onclick="toggle(this)"><span class="check-box"></span><span class="check-text">Confirmed no unassigned shifts — every shift is filled</span></li>
+      <li onclick="toggle(this)"><span class="check-box"></span><span class="check-text">Variable hours align to VLH guidelines</span></li>
+      <li onclick="toggle(this)"><span class="check-box"></span><span class="check-text">Scheduled TPPH aligns to performance expectations</span></li>
+      <li onclick="toggle(this)"><span class="check-box"></span><span class="check-text">Sales projections are realistic and documented</span></li>
+      <li onclick="toggle(this)"><span class="check-box"></span><span class="check-text">Peak periods properly staffed — positions align to volume</span></li>
+    </ul>
+  </div>
+
+  <div class="step-card" data-num="2">
+    <div class="step-num">Step 02</div>
+    <div class="step-title">Evaluate Results</div>
+    <div class="step-body">Start with outcomes. Then diagnose the system. <strong>Use Coach Q to leverage findings.</strong></div>
+    <ul class="checklist" id="cl-results">
+      <li onclick="toggle(this)"><span class="check-box"></span><span class="check-text">Reviewed Sales &amp; Transactions (Projection vs Actual)</span></li>
+      <li onclick="toggle(this)"><span class="check-box"></span><span class="check-text">Reviewed Labor Results (Hours vs Plan, TPPH vs Target)</span></li>
+      <li onclick="toggle(this)"><span class="check-box"></span><span class="check-text">Reviewed Service KPIs by daypart &amp; hour (KVS, OEPE, R2P, Delivery)</span></li>
+      <li onclick="toggle(this)"><span class="check-box"></span><span class="check-text">Reviewed Operations Metrics (deployment, breaks, shift mgmt)</span></li>
+    </ul>
+  </div>
+
+  <div class="step-card" data-num="3">
+    <div class="step-num">Step 03</div>
+    <div class="step-title">Diagnose the System</div>
+    <div class="step-body">You cannot solve a problem you have not correctly identified. <strong>Find the problem to solve the problem.</strong> Diagnose in order: <strong>Labor → Operations → Service → Sales</strong></div>
+    <ul class="checklist" id="cl-diagnose">
+      <li onclick="toggle(this)"><span class="check-box"></span><span class="check-text">Identified whether issue is a demand problem or execution problem</span></li>
+      <li onclick="toggle(this)"><span class="check-box"></span><span class="check-text">Traced root cause — what decision created this outcome?</span></li>
+      <li onclick="toggle(this)"><span class="check-box"></span><span class="check-text">Determined if this is a planning failure or execution failure</span></li>
+      <li onclick="toggle(this)"><span class="check-box"></span><span class="check-text">Identified where the system broke</span></li>
+    </ul>
+  </div>
+
+  <div class="step-card" data-num="4">
+    <div class="step-num">Step 04</div>
+    <div class="step-title">Focus the Organization (80/20)</div>
+    <div class="step-body">Not all problems matter equally. Identify <strong>top 1–2 system problems</strong> and <strong>top 1–2 leadership gaps</strong>. You are not solving every problem — you are ensuring the <em>right</em> problems are owned.</div>
+    <ul class="checklist" id="cl-focus">
+      <li onclick="toggle(this)"><span class="check-box"></span><span class="check-text">Identified top 1–2 system problems across the patch</span></li>
+      <li onclick="toggle(this)"><span class="check-box"></span><span class="check-text">Classified each: complicated (known fix) or complex (requires exploration)?</span></li>
+      <li onclick="toggle(this)"><span class="check-box"></span><span class="check-text">Identified top 1–2 leadership gaps</span></li>
+      <li onclick="toggle(this)"><span class="check-box"></span><span class="check-text">Ensured the right problems are assigned to the right owners</span></li>
+    </ul>
+  </div>
+
+  <div class="step-card" data-num="5">
+    <div class="step-num">Step 05</div>
+    <div class="step-title">Develop the GM</div>
+    <div class="step-body">You do not solve the problem. <strong>You develop the person who will.</strong> If the GM leaves without ownership, the problem remains yours.</div>
+    <ul class="checklist" id="cl-develop">
+      <li onclick="toggle(this)"><span class="check-box"></span><span class="check-text">Had a GM development conversation today</span></li>
+      <li onclick="toggle(this)"><span class="check-box"></span><span class="check-text">GM achieved clarity — they see the real problem</span></li>
+      <li onclick="toggle(this)"><span class="check-box"></span><span class="check-text">GM achieved ownership — they own the result</span></li>
+      <li onclick="toggle(this)"><span class="check-box"></span><span class="check-text">GM committed to an adjustment — what will they do differently?</span></li>
+    </ul>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn btn-gold" onclick="saveProgress()">Save Today's Progress</button>
+    <button class="btn btn-outline" onclick="clearDay()">Clear &amp; Start Fresh</button>
+    <button class="btn btn-blue" onclick="exportDailyPDF()" style="background:#1a5fa8;color:#fff;border:none;">&#128196; Export Daily Report (PDF)</button>
+    <span style="font-size:11px;color:var(--dim);margin-left:8px;" id="lastSaved"></span>
+  </div>
+
+</div>
+</div>
+
+<!-- ══ LABOR SETUP ══ -->
+<div class="tab-page" id="page-labor">
+<div class="page">
+
+  <div class="sec">Labor Setup — One Week in Advance</div>
+
+  <div style="background:var(--gold-light);border:1px solid #d4b86a;border-radius:10px;padding:16px 20px;margin-bottom:24px;font-size:13px;color:#5a3e00;line-height:1.7;">
+    <strong>Non-Negotiable Principle:</strong> If the schedule does not align with VLH and TPPH targets, the operations are set up to fail before the week begins. Labor is not owned by one person — it is owned at every level.
+  </div>
+
+  <div class="sec">Weekly Schedule Review — Enter Per Location</div>
+
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:22px 26px;margin-bottom:20px;">
+    <div class="input-grid">
+      <div class="input-group"><label>Location (NSN)</label><select id="l_loc"><option value="">-- Select Location --</option></select>
+      </div>
+      <div class="input-group">
+        <label>GM Name</label>
+        <input type="text" id="l_gm" placeholder="General Manager">
+      </div>
+      <div class="input-group">
+        <label>Week Starting</label>
+        <input type="text" id="l_week" placeholder="e.g. May 10">
+      </div>
+      <div class="input-group">
+        <label>Scheduled TPPH</label>
+        <input type="number" id="l_tpph" placeholder="e.g. 6.50" step="0.01">
+      </div>
+      <div class="input-group">
+        <label>Total Scheduled Hours</label>
+        <input type="number" id="l_hrs" placeholder="e.g. 1,100">
+      </div>
+      <div class="input-group">
+        <label>VLH Guideline Hours</label>
+        <input type="number" id="l_vlh" placeholder="e.g. 1,050">
+      </div>
+      <div class="input-group">
+        <label>Unassigned Shifts?</label>
+        <select id="l_unassigned">
+          <option value="">— Select —</option>
+          <option value="No">No — All shifts filled</option>
+          <option value="Yes">Yes — Action needed</option>
+        </select>
+      </div>
+      <div class="input-group">
+        <label>Peak Periods Covered?</label>
+        <select id="l_peak">
+          <option value="">— Select —</option>
+          <option value="Yes">Yes — Properly staffed</option>
+          <option value="Partial">Partial — Review needed</option>
+          <option value="No">No — Critical gap</option>
+        </select>
+      </div>
+      <div class="input-group full">
+        <label>Labor Notes / Action Items</label>
+        <textarea id="l_notes" placeholder="Document any scheduling concerns, adjustments needed, or action items..."></textarea>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-gold" onclick="addLaborEntry()">Add Location Entry</button>
+    </div>
+  </div>
+
+  <div class="sec">Location Labor Log</div>
+  <div id="laborLog" style="margin-bottom:24px;">
+    <div style="color:var(--dim);font-size:13px;text-align:center;padding:24px;">No entries yet — add a location above.</div>
+  </div>
+
+</div>
+</div>
+
+<!-- ══ EVALUATE RESULTS ══ -->
+<div class="tab-page" id="page-results">
+<div class="page">
+
+  <div class="sec">Daily Results Entry</div>
+
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:22px 26px;margin-bottom:20px;">
+    <div class="input-grid">
+      <div class="input-group">
+        <label>Location</label>
+        <input type="text" id="r_loc" placeholder="Location number / name">
+      </div>
+      <div class="input-group">
+        <label>Date</label>
+        <input type="text" id="r_date" placeholder="e.g. May 9">
+      </div>
+    </div>
+
+    <div style="margin-top:18px;margin-bottom:10px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--gold);">A. Sales &amp; Transactions</div>
+    <div class="input-grid">
+      <div class="input-group"><label>Sales Projection ($)</label><input type="number" id="r_sproj" placeholder="0"></div>
+      <div class="input-group"><label>Actual Sales ($)</label><input type="number" id="r_sact" placeholder="0"></div>
+      <div class="input-group"><label>Projected Transactions</label><input type="number" id="r_tproj" placeholder="0"></div>
+      <div class="input-group"><label>Actual Transactions</label><input type="number" id="r_tact" placeholder="0"></div>
+    </div>
+
+    <div style="margin-top:18px;margin-bottom:10px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--gold);">B. Labor Results</div>
+    <div class="input-grid">
+      <div class="input-group"><label>Planned Hours</label><input type="number" id="r_lplan" placeholder="0"></div>
+      <div class="input-group"><label>Actual Hours</label><input type="number" id="r_lact" placeholder="0"></div>
+      <div class="input-group"><label>TPPH Target</label><input type="number" id="r_tpphT" placeholder="6.00" step="0.01"></div>
+      <div class="input-group"><label>Actual TPPH</label><input type="number" id="r_tpphA" placeholder="0" step="0.01"></div>
+    </div>
+
+    <div style="margin-top:18px;margin-bottom:10px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--gold);">C. Service KPIs</div>
+    <div class="input-grid">
+      <div class="input-group"><label>OEPE (seconds)</label><input type="number" id="r_oepe" placeholder="0"></div>
+      <div class="input-group"><label>KVS (seconds)</label><input type="number" id="r_kvs" placeholder="0"></div>
+      <div class="input-group"><label>Breakfast OEPE</label><input type="number" id="r_oepeB" placeholder="0"></div>
+      <div class="input-group"><label>Lunch OEPE</label><input type="number" id="r_oepeL" placeholder="0"></div>
+      <div class="input-group"><label>Dinner OEPE</label><input type="number" id="r_oepeD" placeholder="0"></div>
+      <div class="input-group"><label>Kiosk % of Lobby</label><input type="number" id="r_kiosk" placeholder="0" step="0.1"></div>
+    </div>
+
+    <div style="margin-top:18px;margin-bottom:10px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--gold);">D. Operations Notes</div>
+    <div class="input-grid">
+      <div class="input-group full">
+        <label>Deployment / Position Balance / Break Execution / Observations</label>
+        <textarea id="r_ops" placeholder="Document what you observed about deployment effectiveness, crew positioning, break timing, shift management discipline..."></textarea>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-gold" onclick="addResultEntry()">Save Results Entry</button>
+    </div>
+  </div>
+
+  <div class="sec">Results Log</div>
+  <div id="resultsLog" style="margin-bottom:24px;">
+    <div style="color:var(--dim);font-size:13px;text-align:center;padding:24px;">No entries yet — add a location above.</div>
+  </div>
+
+</div>
+</div>
+
+<!-- ══ DIAGNOSE ══ -->
+<div class="tab-page" id="page-diagnose">
+<div class="page">
+
+  <div class="sec">Diagnosis Framework</div>
+
+  <div style="background:var(--ink2);border-radius:12px;padding:20px 24px;margin-bottom:20px;">
+    <div style="font-family:Playfair Display,serif;font-size:16px;font-weight:700;color:var(--gold);margin-bottom:10px;">Diagnosis Order — Non-Negotiable</div>
+    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+      <span style="background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.3);padding:6px 16px;border-radius:20px;font-size:13px;font-weight:600;color:var(--gold);">Labor</span>
+      <span style="color:rgba(255,255,255,0.3);font-size:18px;">&#8594;</span>
+      <span style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);padding:6px 16px;border-radius:20px;font-size:13px;font-weight:600;color:rgba(255,255,255,0.7);">Operations</span>
+      <span style="color:rgba(255,255,255,0.3);font-size:18px;">&#8594;</span>
+      <span style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);padding:6px 16px;border-radius:20px;font-size:13px;font-weight:600;color:rgba(255,255,255,0.7);">Service</span>
+      <span style="color:rgba(255,255,255,0.3);font-size:18px;">&#8594;</span>
+      <span style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);padding:6px 16px;border-radius:20px;font-size:13px;font-weight:600;color:rgba(255,255,255,0.7);">Sales</span>
+    </div>
+    <div style="margin-top:14px;font-size:12px;color:rgba(255,255,255,0.4);line-height:1.7;">
+      Labor = Foundation &nbsp;&nbsp;|&nbsp;&nbsp; Operations = Execution &nbsp;&nbsp;|&nbsp;&nbsp; Service = Experience &nbsp;&nbsp;|&nbsp;&nbsp; Sales = Outcome
+    </div>
+  </div>
+
+  <div class="sec">Problem Classification Matrix</div>
+  <div class="matrix">
+    <div class="matrix-cell">
+      <div class="matrix-label">Best Case</div>
+      <div class="matrix-title">High Demand + Strong Execution</div>
+      <div class="matrix-body">Sales and transactions are up. Labor is efficient. Service is fast. This is a winning week — reinforce what the GM did to create it.</div>
+    </div>
+    <div class="matrix-cell">
+      <div class="matrix-label">Dig Deeper</div>
+      <div class="matrix-title">High Demand + Weak Execution</div>
+      <div class="matrix-body">Traffic is there but OEPE, TPPH, or labor is off. Execution problem, not a market problem. Find the deployment or scheduling gap.</div>
+    </div>
+    <div class="matrix-cell">
+      <div class="matrix-label">Monitor</div>
+      <div class="matrix-title">Low Demand + Strong Execution</div>
+      <div class="matrix-body">Market may be soft, but the team is executing. Labor and service are right. Demand problem — strategy and traffic drivers needed, not operations fixes.</div>
+    </div>
+    <div class="matrix-cell">
+      <div class="matrix-label">Act Here</div>
+      <div class="matrix-title">Low Demand + Weak Execution</div>
+      <div class="matrix-body">Both demand and execution are failing. Labor is likely the root — poor planning creates poor execution which drives poor results. Start at the schedule.</div>
+    </div>
+  </div>
+
+  <div class="sec">Diagnosis Entry</div>
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:22px 26px;margin-bottom:20px;">
+    <div class="input-grid">
+      <div class="input-group"><label>Location (NSN)</label><select id="d_loc"><option value="">-- Select Location --</option></select>
+      </div>
+      <div class="input-group">
+        <label>Problem Type</label>
+        <select id="d_type">
+          <option value="">— Select —</option>
+          <option value="Planning Failure">Planning Failure — Labor / Schedule</option>
+          <option value="Execution Failure">Execution Failure — Deployment / Operations</option>
+          <option value="Demand Problem">Demand Problem — Traffic / Market</option>
+          <option value="Leadership Gap">Leadership Gap — GM Development</option>
+          <option value="System Breakdown">System Breakdown — Multiple factors</option>
+        </select>
+      </div>
+      <div class="input-group full">
+        <label>Surface Symptom (What it looks like)</label>
+        <input type="text" id="d_symptom" placeholder="e.g. Sales were down — service was slow today">
+      </div>
+      <div class="input-group full">
+        <label>Root Cause (What decision created this?)</label>
+        <textarea id="d_root" placeholder="e.g. The schedule was built without reviewing VLH targets — fixed shifts were over-scheduled by 80 hrs, which caused the GM to keep too many crew on during low-volume hours, which slowed deployment..."></textarea>
+      </div>
+      <div class="input-group full">
+        <label>Where did the system break?</label>
+        <textarea id="d_break" placeholder="e.g. The breakdown happened at the scheduling stage 10 days ago when the GM built the schedule based on last month's volume without accounting for the promotion ending..."></textarea>
+      </div>
+      <div class="input-group">
+        <label>Complicated or Complex?</label>
+        <select id="d_complexity">
+          <option value="">— Select —</option>
+          <option value="Complicated">Complicated — Known fix, needs execution</option>
+          <option value="Complex">Complex — Unknown territory, requires exploration</option>
+        </select>
+      </div>
+      <div class="input-group">
+        <label>Who owns the fix?</label>
+        <input type="text" id="d_owner" placeholder="GM name">
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-gold" onclick="addDiagEntry()">Log Diagnosis</button>
+    </div>
+  </div>
+
+  <div class="sec">Diagnosis Log</div>
+  <div id="diagLog" style="margin-bottom:24px;">
+    <div style="color:var(--dim);font-size:13px;text-align:center;padding:24px;">No diagnoses logged yet.</div>
+  </div>
+
+</div>
+</div>
+
+<!-- ══ FOCUS 80/20 ══ -->
+<div class="tab-page" id="page-focus">
+<div class="page">
+
+  <div class="sec">This Week's Top Priorities</div>
+
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:22px 26px;margin-bottom:20px;">
+    <div style="font-family:Playfair Display,serif;font-size:16px;font-weight:700;margin-bottom:16px;color:var(--ink);">Define Your 80/20 Focus</div>
+
+    <div style="margin-bottom:18px;">
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--gold);margin-bottom:12px;">Top 1–2 System Problems</div>
+      <div class="focus-item">
+        <div class="focus-num">1</div>
+        <div style="flex:1;">
+          <div class="input-grid" style="grid-template-columns:1fr 1fr;">
+            <div class="input-group"><label>Problem</label><input type="text" id="sp1" placeholder="e.g. Over-scheduling at Stadium — 67 OT hrs"></div>
+            <div class="input-group"><label>Type</label><select id="spt1"><option value="">—</option><option>Complicated</option><option>Complex</option></select></div>
+            <div class="input-group full"><label>Why it matters most</label><input type="text" id="spr1" placeholder="Impact on operations..."></div>
+          </div>
+        </div>
+      </div>
+      <div class="focus-item">
+        <div class="focus-num">2</div>
+        <div style="flex:1;">
+          <div class="input-grid" style="grid-template-columns:1fr 1fr;">
+            <div class="input-group"><label>Problem</label><input type="text" id="sp2" placeholder="e.g. Dinner TPPH below 5.50 at 3 locations"></div>
+            <div class="input-group"><label>Type</label><select id="spt2"><option value="">—</option><option>Complicated</option><option>Complex</option></select></div>
+            <div class="input-group full"><label>Why it matters most</label><input type="text" id="spr2" placeholder="Impact on operations..."></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--gold);margin-bottom:12px;">Top 1–2 Leadership Gaps</div>
+      <div class="focus-item">
+        <div class="focus-num">1</div>
+        <div style="flex:1;">
+          <div class="input-grid" style="grid-template-columns:1fr 1fr;">
+            <div class="input-group"><label>GM / Gap</label><input type="text" id="lg1" placeholder="e.g. Brenda R. — not diagnosing root cause"></div>
+            <div class="input-group"><label>Development Focus</label><select id="lgt1"><option value="">—</option><option>Visibility</option><option>Accountability</option><option>Ownership</option><option>Performance</option></select></div>
+          </div>
+        </div>
+      </div>
+      <div class="focus-item">
+        <div class="focus-num">2</div>
+        <div style="flex:1;">
+          <div class="input-grid" style="grid-template-columns:1fr 1fr;">
+            <div class="input-group"><label>GM / Gap</label><input type="text" id="lg2" placeholder="e.g. David J. — not owning labor plan"></div>
+            <div class="input-group"><label>Development Focus</label><select id="lgt2"><option value="">—</option><option>Visibility</option><option>Accountability</option><option>Ownership</option><option>Performance</option></select></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-gold" onclick="saveFocus()">Save Focus Priorities</button>
+    </div>
+  </div>
+
+  <div id="focusSummary" style="display:none;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:22px 26px;">
+    <div style="font-family:Playfair Display,serif;font-size:16px;font-weight:700;margin-bottom:14px;">This Week's 80/20 Summary</div>
+    <div id="focusSummaryContent"></div>
+  </div>
+
+</div>
+</div>
+
+<!-- ══ DEVELOP GM ══ -->
+<div class="tab-page" id="page-develop">
+<div class="page">
+
+  <div class="sec">Multiplying Ownership — Conversation Builder</div>
+
+  <div class="ownership-chain">
+    <div class="chain-step active-chain">
+      <div class="chain-icon">&#128065;</div>
+      <div class="chain-label">Visibility</div>
+      <div class="chain-sub">Leaders see clearly</div>
+    </div>
+    <div class="chain-step">
+      <div class="chain-icon">&#127919;</div>
+      <div class="chain-label">Accountability</div>
+      <div class="chain-sub">Leaders take responsibility</div>
+    </div>
+    <div class="chain-step">
+      <div class="chain-icon">&#128081;</div>
+      <div class="chain-label">Ownership</div>
+      <div class="chain-sub">Leaders act</div>
+    </div>
+    <div class="chain-step">
+      <div class="chain-icon">&#128200;</div>
+      <div class="chain-label">Performance</div>
+      <div class="chain-sub">Results improve</div>
+    </div>
+  </div>
+
+  <div class="convo-card">
+    <div class="convo-hdr">
+      <div class="convo-hdr-title">The 4 Non-Negotiable Questions</div>
+      <span class="tag tag-gold">Every GM Conversation</span>
+    </div>
+    <div class="convo-body">
+      <div class="convo-q">1. What happened?</div>
+      <div class="convo-a">Get the facts from the GM — not your version.</div>
+      <div class="convo-q">2. Why did it happen?</div>
+      <div class="convo-a">Listen for depth. Surface answers ("it was busy") are not acceptable.</div>
+      <div class="convo-q">3. What decision caused it?</div>
+      <div class="convo-a">Trace it back. What planning or execution choice created this result?</div>
+      <div class="convo-q">4. What will you change next week?</div>
+      <div class="convo-a">This is the ownership moment. No answer = no ownership.</div>
+    </div>
+  </div>
+
+  <div class="sec">Log a GM Conversation</div>
+
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:22px 26px;margin-bottom:20px;">
+    <div class="input-grid">
+      <div class="input-group"><label>GM Name</label><input type="text" id="gm_name" placeholder="General Manager"></div>
+      <div class="input-group"><label>Location (NSN)</label><select id="gm_loc"><option value="">-- Select Location --</option></select></div>
+      <div class="input-group"><label>Date</label><input type="text" id="gm_date" placeholder="e.g. May 9"></div>
+      <div class="input-group"><label>Conversation Type</label>
+        <select id="gm_type">
+          <option value="">— Select —</option>
+          <option>Daily Check-In</option>
+          <option>Performance Review</option>
+          <option>Root Cause Conversation</option>
+          <option>Labor Planning Review</option>
+          <option>Recognition</option>
+          <option>Development Coaching</option>
+        </select>
+      </div>
+      <div class="input-group full"><label>What happened? (GM's account)</label><textarea id="gm_q1" placeholder="Document what the GM said happened..."></textarea></div>
+      <div class="input-group full"><label>Why did it happen? (Root cause they identified)</label><textarea id="gm_q2" placeholder="Did they get to the real reason or stay at the surface?"></textarea></div>
+      <div class="input-group full"><label>What decision caused it?</label><textarea id="gm_q3" placeholder="What planning or execution decision did they trace it back to?"></textarea></div>
+      <div class="input-group full"><label>What will they change? (Commitment)</label><textarea id="gm_q4" placeholder="What specific commitment did the GM make?"></textarea></div>
+      <div class="input-group"><label>Clarity Achieved?</label>
+        <select id="gm_clarity"><option value="">—</option><option value="Yes">Yes — GM sees the real problem</option><option value="Partial">Partial — needs follow-up</option><option value="No">No — stayed at surface</option></select>
+      </div>
+      <div class="input-group"><label>Ownership Achieved?</label>
+        <select id="gm_own"><option value="">—</option><option value="Yes">Yes — GM owns the result</option><option value="Partial">Partial — needs reinforcement</option><option value="No">No — problem remains mine</option></select>
+      </div>
+      <div class="input-group full"><label>Follow-Up Required</label><input type="text" id="gm_followup" placeholder="What do you need to follow up on and when?"></div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-gold" onclick="addGMConvo()">Log Conversation</button>
+    </div>
+  </div>
+
+  <div class="sec">GM Conversation Log</div>
+  <div id="gmLog" style="margin-bottom:24px;">
+    <div style="color:var(--dim);font-size:13px;text-align:center;padding:24px;">No conversations logged yet.</div>
+  </div>
+
+</div>
+</div>
+
+<!-- ══ NOTES ══ -->
+
+<!-- TRENDS TAB -->
+<div class="tab-page" id="page-trends">
+<div class="page">
+  <div class="sec">Performance Trends <span id="trendsLocFilter" style="color:var(--gold);font-style:normal;"></span></div>
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px 20px;margin-bottom:20px;">
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:11px;align-items:end;">
+      <div class="input-group">
+        <label>KPI</label>
+        <select id="t_kpi" onchange="renderTrends()">
+          <option value="tpphA">TPPH (Actual)</option>
+          <option value="oepe">OEPE (seconds)</option>
+          <option value="kvs">KVS (seconds)</option>
+          <option value="kiosk">Kiosk % of Lobby</option>
+          <option value="sact">Actual Sales ($)</option>
+          <option value="lact">Actual Hours</option>
+        </select>
+      </div>
+      <div class="input-group">
+        <label>Location Filter</label>
+        <select id="t_locFilter" onchange="renderTrends()">
+          <option value="ALL">All Locations</option>
+        </select>
+      </div>
+      <div class="input-group">
+        <label>View Mode</label>
+        <select id="t_mode" onchange="renderTrends()">
+          <option value="trend">Trend Over Time</option>
+          <option value="compare">Side-by-Side Comparison</option>
+          <option value="movement">Week-over-Week Movement</option>
+        </select>
+      </div>
+      <div class="input-group">
+        <label>Group By</label>
+        <select id="t_group" onchange="renderTrends()">
+          <option value="date">Date</option>
+          <option value="loc">Location NSN</option>
+        </select>
+      </div>
+    </div>
+    <div style="margin-top:12px;font-size:11px;color:var(--muted);line-height:1.6;">
+      <strong style="color:var(--ink);">How it works:</strong> Every entry saved in the <strong>2 -- Results</strong> tab feeds this page automatically. Log results each week per location to build trend lines and comparisons over time.
+    </div>
+  </div>
+  <div id="trendsContent">
+    <div style="color:var(--dim);font-size:13px;text-align:center;padding:32px;border:1px dashed var(--border);border-radius:9px;">
+      <div style="font-size:28px;margin-bottom:10px;">&#128202;</div>
+      <div style="font-weight:600;color:var(--muted);margin-bottom:6px;">No trend data yet</div>
+      <div>Go to the <strong>2 -- Results</strong> tab and log daily KPI entries for each location.<br>Each entry you save will appear here automatically.</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="tab-page" id="page-notes">
+<div class="page">
+
+  <div class="sec">Daily Notes &amp; Observations</div>
+
+  <div style="display:grid;grid-template-columns:2fr 1fr;gap:16px;margin-bottom:24px;">
+    <div>
+      <div class="sticky-note"><div class="input-group" style="margin-bottom:10px;"><label>Location (NSN)</label><select id="n_loc"><option value="ALL">All Locations (Patch-Wide)</option></select></div>
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#8a7000;margin-bottom:8px;">Today's Key Observation</div>
+        <textarea id="note_main" style="background:transparent;border:none;outline:none;width:100%;font-family:DM Sans,sans-serif;font-size:13px;color:var(--ink);min-height:120px;resize:vertical;line-height:1.7;" placeholder="What is the single most important thing you observed today across your locations?"></textarea>
+      </div>
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px 18px;margin-top:12px;">
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:10px;">Tomorrow's Plan</div>
+        <textarea id="note_tmrw" style="width:100%;font-family:DM Sans,sans-serif;font-size:13px;color:var(--ink);min-height:90px;resize:vertical;line-height:1.7;background:transparent;border:none;outline:none;" placeholder="What are your priorities for tomorrow?"></textarea>
+      </div>
+    </div>
+    <div>
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px 18px;margin-bottom:12px;">
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:10px;">Pattern Watch</div>
+        <textarea id="note_pattern" style="width:100%;font-family:DM Sans,sans-serif;font-size:13px;color:var(--ink);min-height:90px;resize:vertical;line-height:1.7;background:transparent;border:none;outline:none;" placeholder="What patterns are you seeing across locations this week?"></textarea>
+      </div>
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px 18px;">
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:10px;">Recognition — Who Earned It</div>
+        <textarea id="note_recog" style="width:100%;font-family:DM Sans,sans-serif;font-size:13px;color:var(--ink);min-height:90px;resize:vertical;line-height:1.7;background:transparent;border:none;outline:none;" placeholder="Who had a standout day and why?"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn btn-gold" onclick="saveNotes()">Save Notes</button>
+    <span style="font-size:11px;color:var(--dim);margin-left:8px;" id="notesSaved"></span>
+  </div>
+
+  <div class="sec" style="margin-top:24px;">Previous Notes Log</div>
+  <div id="notesLog">
+    <div style="color:var(--dim);font-size:13px;text-align:center;padding:24px;">No previous notes.</div>
+  </div>
+
+</div>
+</div>
+
+<!-- ══ STANDARDS ══ -->
+<div class="tab-page" id="page-standards">
+<div class="page">
+
+  <div class="sec">Leadership Standard</div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:24px;">
+    <div class="principle weak">
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--red);margin-bottom:10px;">&#10006; Weak Supervisor</div>
+      <div style="font-size:15px;color:var(--muted);line-height:2.2;padding-left:14px;">Solves problems directly</div>
+      <div style="font-size:15px;color:var(--muted);line-height:2.2;padding-left:14px;">Reacts to results</div>
+      <div style="font-size:15px;color:var(--muted);line-height:2.2;padding-left:14px;">Accepts surface-level answers</div>
+      <div style="font-size:15px;color:var(--muted);line-height:2.2;padding-left:14px;">Owns the problem after the conversation</div>
+      <div style="font-size:15px;color:var(--muted);line-height:2.2;padding-left:14px;">Fixes what is visible</div>
+    </div>
+    <div class="principle strong">
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--green);margin-bottom:10px;">&#10003; Strong Supervisor</div>
+      <div style="font-size:15px;color:var(--muted);line-height:2.2;padding-left:14px;">Finds problems early</div>
+      <div style="font-size:15px;color:var(--muted);line-height:2.2;padding-left:14px;">Solves root causes</div>
+      <div style="font-size:15px;color:var(--muted);line-height:2.2;padding-left:14px;">Develops leaders who prevent issues</div>
+      <div style="font-size:15px;color:var(--muted);line-height:2.2;padding-left:14px;">Multiplies ownership</div>
+      <div style="font-size:15px;color:var(--muted);line-height:2.2;padding-left:14px;">Audits decisions already made</div>
+    </div>
+  </div>
+
+  <div class="sec">Core Principles</div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:24px;">
+    <div style="background:var(--ink2);border-radius:12px;padding:24px 26px;">
+      <div style="font-family:Playfair Display,serif;font-size:20px;font-weight:700;color:var(--gold);margin-bottom:12px;">Find the Problem</div>
+      <div style="font-size:15px;color:rgba(255,255,255,0.6);line-height:1.85;">If you solve the wrong problem, nothing improves. The most important skill is not execution &mdash; it is diagnosis. You cannot solve a problem you have not correctly identified.</div>
+    </div>
+    <div style="background:var(--ink2);border-radius:12px;padding:24px 26px;">
+      <div style="font-family:Playfair Display,serif;font-size:20px;font-weight:700;color:var(--gold);margin-bottom:12px;">Multiply Ownership</div>
+      <div style="font-size:15px;color:rgba(255,255,255,0.6);line-height:1.85;">Performance improves when leaders at every level take responsibility. Ownership is not centralized &mdash; it is multiplied. If the GM leaves without ownership, the problem remains yours.</div>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:24px 26px;">
+      <div style="font-family:Playfair Display,serif;font-size:20px;font-weight:700;margin-bottom:12px;">System Connection</div>
+      <div style="font-size:15px;color:var(--muted);line-height:1.85;">Last week&rsquo;s labor plan creates today&rsquo;s operations, which drives service, which determines sales. You are not reacting to results &mdash; you are auditing decisions already made.</div>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:24px 26px;">
+      <div style="font-family:Playfair Display,serif;font-size:20px;font-weight:700;margin-bottom:12px;">3 Outcomes per Conversation</div>
+      <div style="font-size:15px;color:var(--muted);line-height:1.85;"><strong>Clarity</strong> &mdash; Do they see the real problem?<br><strong>Ownership</strong> &mdash; Do they own the result?<br><strong>Adjustment</strong> &mdash; What will they do differently?</div>
+    </div>
+  </div>
+
+  <div class="sec">Quick Reference &mdash; Diagnosis Questions</div>
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:24px 28px;margin-bottom:24px;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+      <div>
+        <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--red);margin-bottom:14px;">&#10006; Weak Thinking &mdash; Never Accept</div>
+        <div style="font-size:16px;color:var(--muted);line-height:2.2;">
+          &ldquo;Sales were down&rdquo;<br>
+          &ldquo;Service was slow today&rdquo;<br>
+          &ldquo;It was just a bad day&rdquo;<br>
+          &ldquo;We were short-staffed&rdquo;
+        </div>
+      </div>
+      <div>
+        <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--green);margin-bottom:14px;">&#10003; Strong Thinking &mdash; Require This</div>
+        <div style="font-size:16px;color:var(--muted);line-height:2.2;">
+          &ldquo;What decision created this outcome?&rdquo;<br>
+          &ldquo;Was this a planning or execution failure?&rdquo;<br>
+          &ldquo;Where did the system break?&rdquo;<br>
+          &ldquo;What will I change next week?&rdquo;
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="background:var(--ink2);border-radius:12px;padding:32px 36px;text-align:center;">
+    <div style="font-family:Playfair Display,serif;font-size:22px;font-style:italic;color:#fff;line-height:1.7;max-width:620px;margin:0 auto;">
+      &ldquo;When ownership is scaled, performance stops being managed and starts being multiplied.&rdquo;
+    </div>
+    <div style="font-size:14px;color:var(--gold);margin-top:14px;">John Abbate &mdash; Multiplying Ownership</div>
+  </div>
+
+</div>
+</div>
+
+
+<script>document.addEventListener('DOMContentLoaded',function(){
+  window.addEventListener('error',function(e){
+    var d=document.createElement('div');
+    d.style.cssText='position:fixed;top:0;left:0;right:0;background:#900;color:#fff;padding:10px 16px;font-family:monospace;font-size:12px;z-index:999999;cursor:pointer;';
+    d.textContent='ERROR line '+e.lineno+': '+e.message+' (click to dismiss)';
+    d.onclick=function(){d.remove();};
+    document.body.appendChild(d);
+  });
+});
+
+//    Helpers                                                                    
+function showTab(id,btn){
+  document.querySelectorAll('.tab-page').forEach(function(p){p.classList.remove('active');});
+  document.querySelectorAll('.nav-btn').forEach(function(b){b.classList.remove('active');});
+  document.getElementById('page-'+id).classList.add('active');
+  if(btn)btn.classList.add('active');
+  refreshAllLogs();
+}
+function toast(msg){
+  var t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(function(){t.classList.remove('show');},2500);
+}
+function now(){return new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});}
+function nowFull(){
+  var d=new Date();
+  return d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})+' at '+d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
+}
+
+//    Date header                                                                
+(function(){
+  var d=new Date();
+  var days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  var ms=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  var hd=document.getElementById('headerDate');
+  if(hd)hd.innerHTML=days[d.getDay()]+'<br>'+ms[d.getMonth()]+' '+d.getDate()+', '+d.getFullYear();
+  var kd=document.getElementById('kpiDate'),ky=document.getElementById('kpiDay');
+  if(kd)kd.textContent=ms[d.getMonth()]+' '+d.getDate();
+  if(ky)ky.textContent=days[d.getDay()];
+})();
+
+//    Storage keys                                                               
+var K_LOCS    = 'sdg_locs_v2';
+var K_PROFILE = 'sdg_profile_v2';
+var K_CHECKS  = 'sdg_checks_'+new Date().toDateString();
+var K_LABOR   = 'sdg_labor';
+var K_RESULTS = 'sdg_results';
+var K_DIAG    = 'sdg_diag';
+var K_GM      = 'sdg_gm';
+var K_NOTES   = 'sdg_notes_log';
+var K_FOCUS   = 'sdg_focus';
+
+//    Location state                                                             
+var locsList=(function(){try{var d=JSON.parse(localStorage.getItem(K_LOCS)||'[]');return Array.isArray(d)?d:[];}catch(e){return [];}})();
+var ACTIVE_LOC= 'ALL';
+
+function getLocs(){return locsList;}
+
+function locLabel(nsn){
+  if(!nsn||nsn==='ALL')return 'All Locations';
+  var l=locsList.find(function(x){return x.nsn===nsn;});
+  return l?(nsn+(l.name?' - '+l.name:'')+(l.gm?' ('+l.gm+')':'')):nsn;
+}
+
+//    Profile                                                                    
+(function loadProfile(){
+  try{
+    var raw=localStorage.getItem(K_PROFILE);
+    var p=(raw&&raw!=='undefined')?JSON.parse(raw):{};
+    if(typeof p!=='object'||Array.isArray(p))p={};
+    var sn=document.getElementById('s_name');
+    var sr=document.getElementById('s_region');
+    if(sn&&p.name)sn.value=p.name;
+    if(sr&&p.region)sr.value=p.region;
+    var ks=document.getElementById('kpiSup');
+    if(ks)ks.textContent=p.name||'--';
+    document.addEventListener('DOMContentLoaded',function(){
+      buildLocBar();
+      renderLocSetup();
+    });
+  }catch(ex){console.warn('loadProfile:',ex);}
+})();
+
+function saveProfile(){
+  var n=document.getElementById('s_name')||document.getElementById('supName');
+  var r=document.getElementById('s_region')||document.getElementById('supPatch');
+  var p={name:n?n.value:'',region:r?r.value:''};
+  localStorage.setItem(K_PROFILE,JSON.stringify(p));
+  var ks=document.getElementById('kpiSup'),kp=document.getElementById('kpiSup');
+  if(ks)ks.textContent=p.name||'--';
+  if(kp)kp.textContent=p.region||'--';
+}
+
+//    Location setup                                                             
+function addLoc(){
+  var nsn=(document.getElementById('a_nsn').value||'').trim();
+  if(!nsn){toast('Enter an NSN');return;}
+  if(locsList.find(function(l){return l.nsn===nsn;})){toast('NSN already added');return;}
+  locsList.push({
+    nsn:nsn,
+    name:(document.getElementById('a_name').value||'').trim(),
+    gm:(document.getElementById('a_gm').value||'').trim(),
+    tpph:document.getElementById('a_tpph').value||'6.00'
+  });
+  localStorage.setItem(K_LOCS,JSON.stringify(locsList));
+  ['a_nsn','a_name','a_gm','a_tpph'].forEach(function(id){
+    var el=document.getElementById(id);if(el)el.value='';
+  });
+  buildLocBar();renderLocSetup();
+  toast('Location '+nsn+' added');
+}
+
+function deleteLoc(i){
+  if(!confirm('Remove '+locsList[i].nsn+'?'))return;
+  locsList.splice(i,1);
+  localStorage.setItem(K_LOCS,JSON.stringify(locsList));
+  buildLocBar();renderLocSetup();toast('Location removed');
+}
+
+function moveLoc(i,dir){
+  var j=i+dir;
+  if(j<0||j>=locsList.length)return;
+  var t=locsList[i];locsList[i]=locsList[j];locsList[j]=t;
+  localStorage.setItem(K_LOCS,JSON.stringify(locsList));
+  buildLocBar();renderLocSetup();
+}
+
+function resetSetup(){
+  if(!confirm('Reset all setup data? This cannot be undone.'))return;
+  locsList=[];
+  localStorage.removeItem(K_LOCS);localStorage.removeItem(K_PROFILE);
+  ['s_name','s_region'].forEach(function(id){var el=document.getElementById(id);if(el)el.value='';});
+  buildLocBar();renderLocSetup();toast('Setup reset');
+}
+
+function renderLocSetup(){
+  var el=document.getElementById('locSetupList');
+  if(!el)return;
+  // Always read fresh from localStorage to avoid stale closure
+  var list=(function(){try{var d=JSON.parse(localStorage.getItem(K_LOCS)||'[]');return Array.isArray(d)?d:[];}catch(e){return [];}})();
+  if(!list.length){
+    el.innerHTML='<div style="color:var(--dim);font-size:13px;text-align:center;padding:20px;border:1px dashed var(--border);border-radius:9px;">No locations yet. Enter an NSN above to get started.</div>';
+    return;
+  }
+  el.innerHTML=list.map(function(loc,i){
+    return '<div class="loc-setup-card">'+
+      '<div class="loc-setup-num">'+(i+1)+'</div>'+
+      '<div style="flex:1;display:grid;grid-template-columns:80px 1fr 1fr 80px;gap:10px;align-items:center;">'+
+        '<div style="font-family:DM Mono,monospace;font-size:14px;font-weight:600;color:var(--gold);">'+loc.nsn+'</div>'+
+        '<div style="font-size:13px;font-weight:600;">'+loc.name+'</div>'+
+        '<div style="font-size:12px;color:var(--muted);">'+loc.gm+'</div>'+
+        '<div><span style="background:var(--gold-light);color:#7a5a0a;font-size:10px;font-weight:700;padding:2px 8px;border-radius:12px;">'+(loc.tpph||'6.00')+'</span></div>'+
+      '</div>'+
+      '<div style="display:flex;gap:6px;">'+
+        (i>0?'<button onclick="moveLoc('+i+',-1)" style="background:none;border:1px solid var(--border);border-radius:5px;padding:3px 8px;cursor:pointer;color:var(--muted);font-size:12px;">&#9650;</button>':'')+
+        (i<list.length-1?'<button onclick="moveLoc('+i+',1)" style="background:none;border:1px solid var(--border);border-radius:5px;padding:3px 8px;cursor:pointer;color:var(--muted);font-size:12px;">&#9660;</button>':'')+
+        '<button class="loc-setup-del" onclick="deleteLoc('+i+')">&#10005;</button>'+
+      '</div>'+
+    '</div>';
+  }).join('');
+}
+
+function buildLocBar(){
+  if(!locsList||!Array.isArray(locsList))locsList=[];
+  var pills=document.getElementById('locPills');
+  var noMsg=document.getElementById('noLocsMsg');
+  if(!pills)return;
+  pills.innerHTML='';
+  if(!locsList.length){if(noMsg)noMsg.style.display='inline';return;}
+  if(noMsg)noMsg.style.display='none';
+  locsList.forEach(function(loc){
+    var btn=document.createElement('button');
+    btn.className='loc-pill'+(ACTIVE_LOC===loc.nsn?' active':'');
+    btn.textContent=loc.nsn+(loc.name?' - '+loc.name:'');
+    btn.onclick=function(){setLoc(loc.nsn,this);};
+    pills.appendChild(btn);
+  });
+  populateSelects();
+}
+
+function populateSelects(){
+  var ids=['l_loc','r_loc','d_loc','gm_loc','n_loc','t_locFilter'];
+  ids.forEach(function(id){
+    var sel=document.getElementById(id);
+    if(!sel)return;
+    var cur=sel.value;
+    while(sel.options.length>1)sel.remove(1);
+    locsList.forEach(function(loc){
+      var opt=document.createElement('option');
+      opt.value=loc.nsn;
+      opt.textContent=loc.nsn+(loc.name?' - '+loc.name:'')+(loc.gm?' ('+loc.gm+')':'');
+      sel.appendChild(opt);
+    });
+    if(cur)sel.value=cur;
+  });
+}
+
+function setLoc(nsn,btn){
+  ACTIVE_LOC=nsn;
+  document.querySelectorAll('.loc-pill').forEach(function(p){p.classList.remove('active');});
+  if(btn)btn.classList.add('active');
+  var kl=document.getElementById('kpiFocus');
+  if(kl)kl.textContent=nsn==='ALL'?'All':nsn;
+  refreshAllLogs();
+}
+
+function filterByLoc(arr){
+  if(ACTIVE_LOC==='ALL')return arr;
+  return arr.filter(function(e){return e.loc===ACTIVE_LOC;});
+}
+
+//    Checklists                                                                 
+var checks=JSON.parse(localStorage.getItem(K_CHECKS)||'{}');
+(function loadChecks(){
+  try{
+    document.querySelectorAll('.checklist li').forEach(function(li){
+      if(!li||!li.parentNode||!li.closest)return;
+      var cl=li.closest('.checklist');
+      if(!cl||!cl.id)return;
+      var children=li.parentNode.children;
+      if(!children)return;
+      var idx=Array.prototype.indexOf.call(children,li);
+      var key=cl.id+'_'+idx;
+      if(checks[key])li.classList.add('done');
+    });
+    updateProgress();
+  }catch(e){console.warn('loadChecks:',e);}
+})();
+
+function toggle(li){
+  try{
+    if(!li||!li.parentNode||!li.closest)return;
+    var cl=li.closest('.checklist');
+    if(!cl||!cl.id)return;
+    li.classList.toggle('done');
+    var idx=Array.prototype.indexOf.call(li.parentNode.children,li);
+    var key=cl.id+'_'+idx;
+    if(li.classList.contains('done'))checks[key]=true; else delete checks[key];
+    localStorage.setItem(K_CHECKS,JSON.stringify(checks));
+    updateProgress();
+  }catch(e){console.warn('toggle:',e);}
+}
+
+function updateProgress(){
+  try{
+    var total=0,done=0;
+    document.querySelectorAll('.checklist li').forEach(function(li){
+      if(li&&li.classList){total++;if(li.classList.contains('done'))done++;}
+    });
+    var pct=total?Math.round(done/total*100):0;
+    var pf=document.getElementById('progressFill');
+    var pp=document.getElementById('progressPct');
+    if(pf)pf.style.width=pct+'%';
+    if(pp)pp.textContent=pct+'%';
+    var stepsDone=0;
+    ['cl1','cl2','cl3','cl4','cl5'].forEach(function(id){
+      var c=document.getElementById(id);
+      if(!c)return;
+      var all=c.querySelectorAll('li');
+      var doneEl=c.querySelectorAll('li.done');
+      if(all&&doneEl&&all.length>0&&all.length===doneEl.length)stepsDone++;
+    });
+    var ks=document.getElementById('kpiSteps');
+    if(ks)ks.textContent=stepsDone+' / 5';
+  }catch(e){console.warn('updateProgress:',e);}
+}
+
+function saveChecks(){
+  toast('Progress saved -- '+(new Date().toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'})));
+  var ls=document.getElementById('lastSaved');
+  if(ls)ls.textContent='Saved '+(new Date().toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'}));
+}
+function clearChecks(){
+  if(!confirm('Clear today\'s checklist?'))return;
+  localStorage.removeItem(K_CHECKS);checks={};
+  document.querySelectorAll('.checklist li').forEach(function(li){li.classList.remove('done');});
+  updateProgress();toast('Cleared');
+}
+
+//    Generic helpers                                                            
+function getLog(key){
+  try{
+    var d=JSON.parse(localStorage.getItem(key)||'[]');
+    return Array.isArray(d)?d:[];
+  }catch(e){return [];}
+}
+function saveLog(key,arr){localStorage.setItem(key,JSON.stringify(arr));}
+
+function deleteAt(key,filterArr,i,renderFn){
+  var all=getLog(key);
+  var item=filterArr[i];
+  var idx=all.findIndex(function(e){return JSON.stringify(e)===JSON.stringify(item);});
+  if(idx>=0)all.splice(idx,1);
+  saveLog(key,all);renderFn();toast('Entry removed');
+}
+
+//    Labor                                                                      
+function addLaborEntry(){
+  var loc=(document.getElementById('l_loc').value||'').trim();
+  if(!loc){toast('Select a location');return;}
+  var arr=getLog(K_LABOR);
+  arr.unshift({loc:loc,week:document.getElementById('l_week').value,
+    tpph:document.getElementById('l_tpph').value,
+    hrs:parseFloat(document.getElementById('l_hrs').value)||0,
+    vlh:parseFloat(document.getElementById('l_vlh').value)||0,
+    unassigned:document.getElementById('l_unassigned').value,
+    peak:document.getElementById('l_peak').value,
+    notes:document.getElementById('l_notes').value,ts:nowFull()});
+  saveLog(K_LABOR,arr);
+  ['l_week','l_tpph','l_hrs','l_vlh','l_notes'].forEach(function(id){var el=document.getElementById(id);if(el)el.value='';});
+  document.getElementById('l_loc').value='';
+  document.getElementById('l_unassigned').value='';
+  document.getElementById('l_peak').value='';
+  renderLaborLog();toast('Labor saved -- '+locLabel(loc));
+}
+
+function renderLaborLog(){
+  var arr=filterByLoc(getLog(K_LABOR));if(!Array.isArray(arr))arr=[];
+  var el=document.getElementById('laborLog');if(!el)return;
+  if(!arr.length){el.innerHTML='<div style="color:var(--dim);font-size:13px;text-align:center;padding:22px;border:1px dashed var(--border);border-radius:9px;">No entries yet.</div>';return;}
+  el.innerHTML=arr.map(function(e,i){
+    var diff=e.hrs-e.vlh;
+    var dc=diff>30?'var(--red)':diff<-30?'var(--amber)':'var(--green)';
+    var diffT=e.vlh?'<span style="background:'+(diff>30?'var(--red-bg)':diff<-30?'var(--amber-bg)':'var(--green-bg)')+';color:'+dc+';font-size:10px;font-weight:700;padding:2px 8px;border-radius:12px;">'+(diff>=0?'+':'')+Math.round(diff)+'h vs VLH</span>':'';
+    var uT=e.unassigned&&e.unassigned.startsWith('Yes')?'<span style="background:var(--red-bg);color:var(--red);font-size:10px;font-weight:700;padding:2px 8px;border-radius:12px;">Unassigned Shifts</span>':'';
+    var pT=e.peak&&e.peak.startsWith('Yes')?'<span style="background:var(--green-bg);color:var(--green);font-size:10px;font-weight:700;padding:2px 8px;border-radius:12px;">Peaks Covered</span>':
+            e.peak&&e.peak.startsWith('Partial')?'<span style="background:var(--amber-bg);color:var(--amber);font-size:10px;font-weight:700;padding:2px 8px;border-radius:12px;">Partial Coverage</span>':
+            e.peak&&e.peak.startsWith('No')?'<span style="background:var(--red-bg);color:var(--red);font-size:10px;font-weight:700;padding:2px 8px;border-radius:12px;">Coverage Gap</span>':'';
+    if(!e||typeof e!=='object')return '';
+    return '<div style="background:var(--card);border:1px solid var(--border);border-radius:9px;padding:13px 16px;margin-bottom:9px;">'+
+      '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:7px;">'+
+        '<div><span style="font-family:Playfair Display,serif;font-size:14px;font-weight:700;">'+locLabel(e.loc)+'</span>'+(e.week?' &nbsp;<span style="background:var(--blue-bg);color:var(--blue);font-size:10px;font-weight:700;padding:2px 8px;border-radius:12px;">Week of '+e.week+'</span>':'')+'</div>'+
+        '<button onclick="deleteAt(K_LABOR,filterByLoc(getLog(K_LABOR)),'+i+',renderLaborLog)" style="background:none;border:none;color:var(--dim);cursor:pointer;font-size:15px;">&#10005;</button>'+
+      '</div>'+
+      '<div style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:7px;">'+diffT+uT+pT+(e.tpph?'<span style="background:var(--gold-light);color:#7a5a0a;font-size:10px;font-weight:700;padding:2px 8px;border-radius:12px;">TPPH '+e.tpph+'</span>':'')+'</div>'+
+      (e.notes?'<div style="font-size:12px;color:var(--muted);line-height:1.65;">'+e.notes+'</div>':'')+
+      '<div style="font-size:10px;color:var(--dim);margin-top:6px;">'+e.ts+'</div>'+
+    '</div>';
+  }).join('');
+}
+
+//    Results                                                                    
+function addResultEntry(){
+  var loc=(document.getElementById('r_loc').value||'').trim();
+  if(!loc){toast('Select a location');return;}
+  var e={loc:loc,date:document.getElementById('r_date').value,
+    daypart:(document.getElementById('r_daypart')||{}).value||'',
+    sproj:parseFloat(document.getElementById('r_sproj').value)||0,
+    sact:parseFloat(document.getElementById('r_sact').value)||0,
+    tproj:document.getElementById('r_tproj').value,
+    tact:document.getElementById('r_tact').value,
+    lplan:document.getElementById('r_lplan').value,
+    lact:document.getElementById('r_lact').value,
+    tpphT:parseFloat(document.getElementById('r_tpphT').value)||0,
+    tpphA:parseFloat(document.getElementById('r_tpphA').value)||0,
+    oepe:document.getElementById('r_oepe').value,
+    kvs:document.getElementById('r_kvs').value,
+    kiosk:document.getElementById('r_kiosk').value,
+    oepeB:document.getElementById('r_oepeB').value,
+    oepeL:document.getElementById('r_oepeL').value,
+    oepeD:document.getElementById('r_oepeD').value,
+    ops:document.getElementById('r_ops').value,ts:nowFull()};
+  var arr=getLog(K_RESULTS);arr.unshift(e);saveLog(K_RESULTS,arr);
+  renderResultsLog();renderTrends();toast('Results saved -- '+locLabel(loc));
+}
+
+function renderResultsLog(){
+  var arr=filterByLoc(getLog(K_RESULTS));if(!Array.isArray(arr))arr=[];
+  var el=document.getElementById('resultsLog');if(!el)return;
+  if(!arr.length){el.innerHTML='<div style="color:var(--dim);font-size:13px;text-align:center;padding:22px;border:1px dashed var(--border);border-radius:9px;">No entries yet.</div>';return;}
+  el.innerHTML=arr.map(function(e,i){
+    var sv=e.sact-e.sproj;var tv=e.tpphA-e.tpphT;
+    var oe=parseInt(e.oepe);
+    if(!e||typeof e!=='object')return '';
+    if(!e||typeof e!=='object')return '';
+    return '<div style="background:var(--card);border:1px solid var(--border);border-radius:9px;padding:13px 16px;margin-bottom:9px;">'+
+      '<div style="display:flex;justify-content:space-between;margin-bottom:8px;">'+
+        '<div><span style="font-family:Playfair Display,serif;font-size:14px;font-weight:700;">'+locLabel(e.loc)+'</span>'+(e.date?' &nbsp;<span style="background:var(--blue-bg);color:var(--blue);font-size:10px;font-weight:700;padding:2px 8px;border-radius:12px;">'+e.date+'</span>':'')+
+        (e.daypart?' <span style="background:var(--gold-light);color:#7a5a0a;font-size:10px;font-weight:700;padding:2px 8px;border-radius:12px;">'+e.daypart+'</span>':'')+'</div>'+
+        '<button onclick="deleteAt(K_RESULTS,filterByLoc(getLog(K_RESULTS)),'+i+',renderResultsLog)" style="background:none;border:none;color:var(--dim);cursor:pointer;font-size:15px;">&#10005;</button>'+
+      '</div>'+
+      '<div style="display:flex;gap:14px;flex-wrap:wrap;margin-bottom:8px;">'+
+        (e.sproj?'<div style="text-align:center;"><div style="font-family:DM Mono,monospace;font-size:13px;font-weight:600;color:'+(sv>=0?'var(--green)':'var(--red)')+';">'+(sv>=0?'+$':'-$')+Math.abs(sv).toFixed(0)+'</div><div style="font-size:9px;color:var(--muted);">Sales vs Proj</div></div>':'')+
+        (e.tpphA?'<div style="text-align:center;"><div style="font-family:DM Mono,monospace;font-size:13px;font-weight:600;color:'+(tv>=0?'var(--green)':'var(--red)')+';">'+(tv>=0?'+':'')+tv.toFixed(2)+'</div><div style="font-size:9px;color:var(--muted);">TPPH vs Target</div></div>':'')+
+        (e.oepe?'<div style="text-align:center;"><div style="font-family:DM Mono,monospace;font-size:13px;font-weight:600;color:'+(oe<=120?'var(--green)':oe<=150?'var(--amber)':'var(--red)')+';">'+e.oepe+'s</div><div style="font-size:9px;color:var(--muted);">OEPE</div></div>':'')+
+        (e.kvs?'<div style="text-align:center;"><div style="font-family:DM Mono,monospace;font-size:13px;font-weight:600;">'+e.kvs+'s</div><div style="font-size:9px;color:var(--muted);">KVS</div></div>':'')+
+        (e.kiosk?'<div style="text-align:center;"><div style="font-family:DM Mono,monospace;font-size:13px;font-weight:600;">'+e.kiosk+'%</div><div style="font-size:9px;color:var(--muted);">Kiosk</div></div>':'')+
+      '</div>'+
+      (e.ops?'<div style="font-size:12px;color:var(--muted);line-height:1.6;">'+e.ops+'</div>':'')+
+      '<div style="font-size:10px;color:var(--dim);margin-top:6px;">'+e.ts+'</div>'+
+    '</div>';
+  }).join('');
+}
+
+//    Diagnosis                                                                  
+function addDiagEntry(){
+  var loc=(document.getElementById('d_loc').value||'').trim();
+  if(!loc){toast('Select a location');return;}
+  var arr=getLog(K_DIAG);
+  arr.unshift({loc:loc,type:document.getElementById('d_type').value,
+    complexity:document.getElementById('d_complexity').value,
+    symptom:document.getElementById('d_symptom').value,
+    root:document.getElementById('d_root').value,
+    brk:document.getElementById('d_break').value,
+    owner:document.getElementById('d_owner').value,
+    followdate:(document.getElementById('d_followdate')||{}).value||'',ts:nowFull()});
+  saveLog(K_DIAG,arr);renderDiagLog();toast('Diagnosis logged -- '+locLabel(loc));
+}
+
+function renderDiagLog(){
+  var arr=filterByLoc(getLog(K_DIAG));if(!Array.isArray(arr))arr=[];
+  var el=document.getElementById('diagLog');if(!el)return;
+  if(!arr.length){el.innerHTML='<div style="color:var(--dim);font-size:13px;text-align:center;padding:22px;border:1px dashed var(--border);border-radius:9px;">No diagnoses yet.</div>';return;}
+  var tc={'Planning Failure':'var(--red-bg);color:var(--red)','Execution Failure':'var(--amber-bg);color:var(--amber)','Demand Problem':'var(--blue-bg);color:var(--blue)','Leadership Gap':'var(--gold-light);color:#7a5a0a','System Breakdown':'var(--red-bg);color:var(--red)'};
+  el.innerHTML=arr.map(function(e,i){
+    var ts=tc[e.type]||'var(--blue-bg);color:var(--blue)';
+    if(!e||typeof e!=='object')return '';
+    if(!e||typeof e!=='object')return '';
+    return '<div style="background:var(--card);border:1px solid var(--border);border-radius:9px;padding:13px 16px;margin-bottom:9px;">'+
+      '<div style="display:flex;justify-content:space-between;margin-bottom:8px;">'+
+        '<div><span style="font-family:Playfair Display,serif;font-size:14px;font-weight:700;">'+locLabel(e.loc)+'</span>'+
+        (e.type?' &nbsp;<span style="background:'+ts+';font-size:10px;font-weight:700;padding:2px 8px;border-radius:12px;">'+e.type+'</span>':'')+
+        (e.complexity?' <span style="background:var(--gold-light);color:#7a5a0a;font-size:10px;font-weight:700;padding:2px 8px;border-radius:12px;">'+e.complexity+'</span>':'')+'</div>'+
+        '<button onclick="deleteAt(K_DIAG,filterByLoc(getLog(K_DIAG)),'+i+',renderDiagLog)" style="background:none;border:none;color:var(--dim);cursor:pointer;font-size:15px;">&#10005;</button>'+
+      '</div>'+
+      (e.symptom?'<div style="font-size:12px;color:var(--muted);margin-bottom:5px;"><strong style="color:var(--ink);">Symptom:</strong> '+e.symptom+'</div>':'')+
+      (e.root?'<div style="font-size:12px;color:var(--muted);margin-bottom:5px;"><strong style="color:var(--ink);">Root Cause:</strong> '+e.root+'</div>':'')+
+      (e.brk?'<div style="font-size:12px;color:var(--muted);margin-bottom:5px;"><strong style="color:var(--ink);">System Break:</strong> '+e.brk+'</div>':'')+
+      '<div style="display:flex;gap:7px;margin-top:7px;">'+
+        (e.owner?'<span style="background:var(--green-bg);color:var(--green);font-size:10px;font-weight:700;padding:2px 8px;border-radius:12px;">Owner: '+e.owner+'</span>':'')+
+        (e.followdate?'<span style="background:var(--blue-bg);color:var(--blue);font-size:10px;font-weight:700;padding:2px 8px;border-radius:12px;">Follow-up: '+e.followdate+'</span>':'')+
+      '</div>'+
+      '<div style="font-size:10px;color:var(--dim);margin-top:7px;">'+(e.ts||'')+'</div>'+
+    '</div>';
+  }).join('');
+}
+
+//    GM Conversations                                                           
+function addGMConvo(){
+  var loc=(document.getElementById('gm_loc').value||'').trim();
+  if(!loc){toast('Select a location');return;}
+  var arr=getLog(K_GM);
+  arr.unshift({loc:loc,gm:document.getElementById('gm_name').value,
+    date:document.getElementById('gm_date').value,
+    type:document.getElementById('gm_type').value,
+    q1:document.getElementById('gm_q1').value,
+    q2:document.getElementById('gm_q2').value,
+    q4:document.getElementById('gm_q4').value,
+    clarity:document.getElementById('gm_clarity').value,
+    own:document.getElementById('gm_own').value,
+    followup:document.getElementById('gm_followup').value,ts:nowFull()});
+  saveLog(K_GM,arr);renderGMLog();toast('Conversation logged');
+}
+
+function renderGMLog(){
+  try{
+  var arr=filterByLoc(getLog(K_GM));
+  if(!Array.isArray(arr))arr=[];
+  var el=document.getElementById('gmLog');if(!el)return;
+  if(!arr.length){el.innerHTML='<div style="color:var(--dim);font-size:13px;text-align:center;padding:22px;border:1px dashed var(--border);border-radius:9px;">No conversations yet.</div>';return;}
+  el.innerHTML=arr.map(function(e,i){
+    var cc=e.clarity==='Yes'?'var(--green-bg);color:var(--green)':e.clarity==='Partial'?'var(--amber-bg);color:var(--amber)':'var(--red-bg);color:var(--red)';
+    var oc=e.own==='Yes'?'var(--green-bg);color:var(--green)':e.own==='Partial'?'var(--amber-bg);color:var(--amber)':'var(--red-bg);color:var(--red)';
+    if(!e||typeof e!=='object')return '';
+    return '<div style="background:var(--card);border:1px solid var(--border);border-radius:9px;padding:13px 16px;margin-bottom:9px;">'+
+      '<div style="display:flex;justify-content:space-between;margin-bottom:8px;">'+
+        '<div><span style="font-family:Playfair Display,serif;font-size:14px;font-weight:700;">'+(e.gm||locLabel(e.loc||''))+'</span>'+
+        ' &nbsp;<span style="background:var(--blue-bg);color:var(--blue);font-size:10px;font-weight:700;padding:2px 8px;border-radius:12px;">'+locLabel(e.loc)+'</span>'+
+        (e.date?' <span style="background:var(--blue-bg);color:var(--blue);font-size:10px;font-weight:700;padding:2px 8px;border-radius:12px;">'+e.date+'</span>':'')+
+        (e.type?' <span style="background:var(--gold-light);color:#7a5a0a;font-size:10px;font-weight:700;padding:2px 8px;border-radius:12px;">'+e.type+'</span>':'')+'</div>'+
+        '<button onclick="deleteAt(K_GM,filterByLoc(getLog(K_GM)),'+i+',renderGMLog)" style="background:none;border:none;color:var(--dim);cursor:pointer;font-size:15px;">&#10005;</button>'+
+      '</div>'+
+      '<div style="display:flex;gap:7px;margin-bottom:8px;">'+
+        (e.clarity?'<span style="background:'+cc+';font-size:10px;font-weight:700;padding:2px 8px;border-radius:12px;">Clarity: '+e.clarity+'</span>':'')+
+        (e.own?'<span style="background:'+oc+';font-size:10px;font-weight:700;padding:2px 8px;border-radius:12px;">Ownership: '+e.own+'</span>':'')+
+      '</div>'+
+      (e.q1?'<div style="font-size:12px;color:var(--muted);margin-bottom:5px;"><strong style="color:var(--ink);">What happened:</strong> '+e.q1+'</div>':'')+
+      (e.q4?'<div style="font-size:12px;color:var(--muted);margin-bottom:5px;"><strong style="color:var(--ink);">Will change:</strong> '+e.q4+'</div>':'')+
+      (e.followup?'<div style="margin-top:7px;padding:7px 11px;background:var(--amber-bg);border-radius:6px;font-size:12px;color:var(--amber);"><strong>Follow-up:</strong> '+e.followup+'</div>':'')+
+      '<div style="font-size:10px;color:var(--dim);margin-top:7px;">'+(e.ts||'')+'</div>'+
+    '</div>';
+  }).join('');
+  }catch(e){console.warn('renderGMLog:',e);}
+}
+
+//    Focus                                                                      
+(function loadFocus(){
+  try{
+    var raw=localStorage.getItem(K_FOCUS);
+    var f=raw?JSON.parse(raw):{};
+    if(typeof f!=='object'||Array.isArray(f))f={};
+    var ids=['sp1','spt1','spr1','sp2','spt2','spr2','lg1','lgt1','lg2','lgt2'];
+    ids.forEach(function(id){
+      var el=document.getElementById(id);
+      if(el&&f[id]&&typeof f[id]==='string')el.value=f[id];
+    });
+  }catch(ex){console.warn('loadFocus error:',ex);localStorage.removeItem(K_FOCUS);}
+})();
+
+function saveFocus(){
+  var ids=['sp1','spt1','spr1','sp2','spt2','spr2','lg1','lgt1','lg2','lgt2'];
+  var f={};
+  ids.forEach(function(id){var el=document.getElementById(id);if(el)f[id]=el.value;});
+  localStorage.setItem(K_FOCUS,JSON.stringify(f));
+  var sc=document.getElementById('focusSummaryContent');
+  if(sc){
+    sc.innerHTML='<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">'+
+      '<div><div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--gold);margin-bottom:10px;">System Problems</div>'+
+        (f.sp1?'<div style="font-size:13px;font-weight:600;margin-bottom:3px;">1. '+f.sp1+'</div>'+(f.spt1?'<span style="background:var(--amber-bg);color:var(--amber);font-size:10px;font-weight:700;padding:2px 8px;border-radius:12px;">'+f.spt1+'</span><br>':'')+(f.spr1?'<div style="font-size:12px;color:var(--muted);margin-top:4px;margin-bottom:12px;">'+f.spr1+'</div>':''):'')+
+        (f.sp2?'<div style="font-size:13px;font-weight:600;margin-bottom:3px;">2. '+f.sp2+'</div>'+(f.spt2?'<span style="background:var(--amber-bg);color:var(--amber);font-size:10px;font-weight:700;padding:2px 8px;border-radius:12px;">'+f.spt2+'</span>':''):'')+'</div>'+
+      '<div><div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--gold);margin-bottom:10px;">Leadership Gaps</div>'+
+        (f.lg1?'<div style="font-size:13px;font-weight:600;margin-bottom:3px;">1. '+f.lg1+'</div>'+(f.lgt1?'<span style="background:var(--blue-bg);color:var(--blue);font-size:10px;font-weight:700;padding:2px 8px;border-radius:12px;">'+f.lgt1+'</span><br>':'')+'<div style="margin-bottom:12px;"></div>':'')+
+        (f.lg2?'<div style="font-size:13px;font-weight:600;margin-bottom:3px;">2. '+f.lg2+'</div>'+(f.lgt2?'<span style="background:var(--blue-bg);color:var(--blue);font-size:10px;font-weight:700;padding:2px 8px;border-radius:12px;">'+f.lgt2+'</span>':''):'')+'</div>'+
+    '</div>';
+  }
+  var fs=document.getElementById('focusSummary');
+  if(fs)fs.style.display='block';
+  toast('Focus priorities saved');
+}
+
+//    Notes                                                                      
+function saveNotes(){
+  var main=document.getElementById('note_main');
+  if(!main||!main.value.trim()){toast('Add an observation first');return;}
+  var locSel=document.getElementById('n_loc');
+  var arr=getLog(K_NOTES);
+  arr.unshift({
+    loc:locSel?locSel.value:'ALL',
+    date:now(),
+    main:main.value,
+    tmrw:(document.getElementById('note_tmrw')||{}).value||'',
+    pattern:(document.getElementById('note_pattern')||{}).value||'',
+    recog:(document.getElementById('note_recog')||{}).value||'',
+    ts:nowFull()
+  });
+  if(arr.length>60)arr=arr.slice(0,60);
+  saveLog(K_NOTES,arr);renderNotesLog();
+  var ns=document.getElementById('notesSaved');
+  if(ns)ns.textContent='Saved '+(new Date().toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'}));
+  toast('Note saved');
+}
+
+function renderNotesLog(){
+  var arr=getLog(K_NOTES);
+  if(ACTIVE_LOC!=='ALL')arr=arr.filter(function(e){return !e.loc||e.loc==='ALL'||e.loc===ACTIVE_LOC;});
+  var el=document.getElementById('notesLog');if(!el)return;
+  if(!arr.length){el.innerHTML='<div style="color:var(--dim);font-size:13px;text-align:center;padding:22px;border:1px dashed var(--border);border-radius:9px;">No notes yet.</div>';return;}
+  el.innerHTML=arr.map(function(e,i){
+    return '<div style="background:var(--card);border:1px solid var(--border);border-radius:9px;padding:13px 16px;margin-bottom:9px;">'+
+      '<div style="display:flex;justify-content:space-between;margin-bottom:9px;">'+
+        '<span style="font-family:Playfair Display,serif;font-size:14px;font-weight:700;">'+e.date+'</span>'+
+        (e.loc&&e.loc!=='ALL'?'<span style="background:var(--blue-bg);color:var(--blue);font-size:10px;font-weight:700;padding:2px 8px;border-radius:12px;">'+locLabel(e.loc)+'</span>':
+         '<span style="background:var(--gold-light);color:#7a5a0a;font-size:10px;font-weight:700;padding:2px 8px;border-radius:12px;">Patch-Wide</span>')+
+      '</div>'+
+      (e.main?'<div style="font-size:12px;color:var(--muted);margin-bottom:5px;"><strong style="color:var(--ink);">Observation:</strong> '+e.main+'</div>':'')+
+      (e.tmrw?'<div style="font-size:12px;color:var(--muted);margin-bottom:5px;"><strong style="color:var(--ink);">Tomorrow:</strong> '+e.tmrw+'</div>':'')+
+      (e.pattern?'<div style="font-size:12px;color:var(--muted);margin-bottom:5px;"><strong style="color:var(--ink);">Pattern:</strong> '+e.pattern+'</div>':'')+
+      (e.recog?'<div style="font-size:12px;color:var(--muted);"><strong style="color:var(--ink);">Recognition:</strong> '+e.recog+'</div>':'')+
+      '<div style="font-size:10px;color:var(--dim);margin-top:7px;">'+(e.ts||'')+'</div>'+
+    '</div>';
+  }).join('');
+}
+
+//    Trends                                                                     
+function renderTrends(){try{
+  var kpiEl=document.getElementById('t_kpi');
+  var modeEl=document.getElementById('t_mode');
+  var locFEl=document.getElementById('t_locFilter');
+  if(!kpiEl)return;
+  var kpi=kpiEl.value;
+  var mode=modeEl?modeEl.value:'trend';
+  var locF=locFEl?locFEl.value:'ALL';
+  var el=document.getElementById('trendsContent');if(!el)return;
+
+  // Populate location dropdown from saved results
+  var allResults=getLog(K_RESULTS);
+  if(locFEl){
+    var existing=[].slice.call(locFEl.options).map(function(o){return o.value;});
+    allResults.forEach(function(e){
+      if(e.loc&&!existing.includes(e.loc)){
+        var opt=document.createElement('option');
+        opt.value=e.loc;opt.textContent=locLabel(e.loc);
+        locFEl.appendChild(opt);existing.push(e.loc);
+      }
+    });
+  }
+
+  var arr=allResults.slice();
+  if(locF!=='ALL')arr=arr.filter(function(e){return e.loc===locF;});
+  else if(ACTIVE_LOC!=='ALL')arr=arr.filter(function(e){return e.loc===ACTIVE_LOC;});
+
+  if(!arr.length){
+    el.innerHTML='<div style="color:var(--dim);font-size:13px;text-align:center;padding:32px;border:1px dashed var(--border);border-radius:9px;"><div style="font-size:28px;margin-bottom:10px;">&#128202;</div><div style="font-weight:600;color:var(--muted);margin-bottom:6px;">No trend data yet</div><div>Log results entries in the <strong>2 -- Results</strong> tab to build trends over time.</div></div>';
+    return;
+  }
+
+  if(!Array.isArray(arr))arr=[];
+  arr.sort(function(a,b){return new Date(a.ts)-new Date(b.ts);});
+  var kpiLabels={tpphA:'TPPH',oepe:'OEPE (s)',kvs:'KVS (s)',kiosk:'Kiosk % of Lobby',sact:'Sales ($)',lact:'Act Hours'};
+  var kpiGoals={tpphA:6.0,oepe:120,kvs:60,kiosk:70};
+
+  function kpiColor(v,k){
+    if(k==='tpphA')return v>=7?'var(--green)':v>=6?'var(--amber)':'var(--red)';
+    if(k==='oepe') return v<=120?'var(--green)':v<=150?'var(--amber)':'var(--red)';
+    if(k==='kvs')  return v<=55?'var(--green)':v<=75?'var(--amber)':'var(--red)';
+    if(k==='kiosk')return v>=80?'var(--green)':v>=60?'var(--amber)':'var(--red)';
+    return 'var(--blue)';
+  }
+
+  var byLoc={};
+  arr.forEach(function(e){if(e&&e.loc){if(!byLoc[e.loc])byLoc[e.loc]=[];byLoc[e.loc].push(e);}});
+  var locs=Object.keys(byLoc).sort(function(a,b){return parseInt(a)-parseInt(b);});
+  if(!Array.isArray(locs))locs=[];
+  var html_out='';
+
+  if(mode==='trend'){
+    locs.forEach(function(loc){
+      var entries=byLoc[loc];
+      var vals=Array.isArray(entries)?entries.map(function(e){return parseFloat(e[kpi])||0;}):[];
+      var dates=Array.isArray(entries)?entries.map(function(e){return e.date||(e.ts?e.ts.split(' at')[0]:'');}):[];
+      var maxV=Math.max.apply(null,vals)||1;
+      var minV=Math.min.apply(null,vals)||0;
+      var range=maxV-minV||1;
+      var latest=vals[vals.length-1];
+      var prev=vals.length>1?vals[vals.length-2]:null;
+      var change=prev!==null?latest-prev:null;
+      var isGood=change===null?null:(kpi==='oepe'||kpi==='kvs'?change<0:change>0);
+      var changeCol=change===null?'var(--dim)':isGood?'var(--green)':'var(--red)';
+      var W=280,H=60,pad=8;
+      var pts=vals.map(function(v,i){
+        var x=vals.length>1?pad+(i/(vals.length-1))*(W-pad*2):W/2;
+        var y=pad+(1-(v-minV)/range)*(H-pad*2);
+        return x.toFixed(1)+','+y.toFixed(1);
+      }).join(' ');
+      var dotColor=kpiColor(latest,kpi);
+      var goal=kpiGoals[kpi];
+      var goalY=goal?pad+(1-(goal-minV)/range)*(H-pad*2):null;
+      var svg='<svg width="'+W+'" height="'+H+'" viewBox="0 0 '+W+' '+H+'" style="display:block;">';
+      if(goalY&&goalY>0&&goalY<H)svg+='<line x1="'+pad+'" y1="'+goalY.toFixed(1)+'" x2="'+(W-pad)+'" y2="'+goalY.toFixed(1)+'" stroke="'+dotColor+'" stroke-width="1" stroke-dasharray="4,3" opacity="0.3"/>';
+      if(vals.length>1){
+        var ap='M'+pad+','+(H-pad);
+        vals.forEach(function(v,i){var x=pad+(i/(vals.length-1))*(W-pad*2);var y=pad+(1-(v-minV)/range)*(H-pad*2);ap+=' L'+x.toFixed(1)+','+y.toFixed(1);});
+        ap+=' L'+(W-pad)+','+(H-pad)+' Z';
+        svg+='<path d="'+ap+'" fill="'+dotColor+'" opacity="0.07"/>';
+        svg+='<polyline points="'+pts+'" fill="none" stroke="'+dotColor+'" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>';
+      }
+      vals.forEach(function(v,i){
+        var x=vals.length>1?pad+(i/(vals.length-1))*(W-pad*2):W/2;
+        var y=pad+(1-(v-minV)/range)*(H-pad*2);
+        svg+='<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="3.5" fill="'+kpiColor(v,kpi)+'" stroke="#fff" stroke-width="1.5"/>';
+        if(i===vals.length-1)svg+='<text x="'+(x+6).toFixed(1)+'" y="'+(y+4).toFixed(1)+'" font-size="9" font-family="monospace" fill="'+kpiColor(v,kpi)+'" font-weight="600">'+v.toFixed(2)+'</text>';
+      });
+      svg+='</svg>';
+      var dateAxis='<div style="display:flex;justify-content:space-between;padding:0 '+pad+'px;margin-top:2px;">';
+      if(dates.length===1)dateAxis+='<span style="font-size:9px;color:var(--dim);">'+dates[0]+'</span>';
+      else{dateAxis+='<span style="font-size:9px;color:var(--dim);">'+dates[0]+'</span>';if(dates.length>2)dateAxis+='<span style="font-size:9px;color:var(--dim);">'+dates[Math.floor(dates.length/2)]+'</span>';dateAxis+='<span style="font-size:9px;color:var(--dim);">'+dates[dates.length-1]+'</span>';}
+      dateAxis+='</div>';
+      html_out+='<div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:12px;">'+
+        '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">'+
+          '<div><div style="font-family:Playfair Display,serif;font-size:15px;font-weight:700;margin-bottom:2px;">'+locLabel(loc)+'</div>'+
+          '<div style="font-size:10px;color:var(--muted);">'+entries.length+' entr'+(entries.length===1?'y':'ies')+' &nbsp;&middot;&nbsp; '+kpiLabels[kpi]+'</div></div>'+
+          '<div style="text-align:right;"><div style="font-family:DM Mono,monospace;font-size:20px;font-weight:600;color:'+kpiColor(latest,kpi)+';">'+latest.toFixed(2)+'</div>'+
+          '<div style="font-size:10px;color:'+changeCol+';">'+(change!==null?(change>=0?'+':'')+change.toFixed(2)+' vs prev':'first entry')+'</div></div>'+
+        '</div>'+svg+dateAxis+'</div>';
+    });
+  } else if(mode==='compare'){
+    var latest_by_loc=locs.map(function(loc){
+      var e=byLoc[loc][byLoc[loc].length-1];
+      return {loc:loc,val:parseFloat(e[kpi])||0,date:e.date||e.ts.split(' at')[0]};
+    }).sort(function(a,b){return (kpi==='oepe'||kpi==='kvs')?a.val-b.val:b.val-a.val;});
+    var maxV=Math.max.apply(null,latest_by_loc.map(function(x){return x.val;}))||1;
+    var goal=kpiGoals[kpi];
+    html_out+='<div style="background:var(--card);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:16px;">'+
+      '<div style="padding:12px 18px;background:var(--ink2);"><div style="font-family:Playfair Display,serif;font-size:14px;font-weight:700;color:#fff;">'+kpiLabels[kpi]+' -- Latest Entry Per Location</div></div>'+
+      '<div style="padding:6px 0;">';
+    latest_by_loc.forEach(function(item,i){
+      var pct=Math.min(100,item.val/maxV*100);
+      var col=kpiColor(item.val,kpi);
+      html_out+='<div style="display:flex;align-items:center;gap:10px;padding:7px 18px;border-top:'+(i>0?'1px solid var(--border)':'none')+';">'+
+        '<div style="width:26px;text-align:center;font-family:Playfair Display,serif;font-size:15px;font-weight:700;color:var(--gold-light);">'+(i+1)+'</div>'+
+        '<div style="min-width:160px;font-size:12px;font-weight:600;">'+locLabel(item.loc)+'</div>'+
+        '<div style="flex:1;height:8px;background:#e8e4dc;border-radius:4px;overflow:hidden;position:relative;">'+
+          '<div style="width:'+pct+'%;height:100%;background:'+col+';border-radius:4px;"></div>'+
+          (goal?'<div style="position:absolute;top:0;height:100%;width:2px;background:rgba(0,0,0,0.2);left:'+(goal/maxV*100).toFixed(1)+'%;"></div>':'')+
+        '</div>'+
+        '<div style="font-family:DM Mono,monospace;font-size:12px;font-weight:700;color:'+col+';width:42px;text-align:right;">'+item.val.toFixed(2)+'</div>'+
+        '<div style="font-size:10px;color:var(--dim);width:50px;text-align:right;">'+item.date+'</div>'+
+      '</div>';
+    });
+    html_out+='</div></div>';
+  } else {
+    // movement
+    var movements=locs.map(function(loc){
+      var entries=byLoc[loc];
+      if(entries.length<2)return {loc:loc,prev:null,curr:parseFloat(entries[0][kpi])||0,change:null,n:entries.length};
+      var curr=parseFloat(entries[entries.length-1][kpi])||0;
+      var prev=parseFloat(entries[entries.length-2][kpi])||0;
+      return {loc:loc,prev:prev,curr:curr,change:curr-prev,n:entries.length};
+    }).sort(function(a,b){
+      if(a.change===null&&b.change===null)return 0;
+      if(a.change===null)return 1;if(b.change===null)return -1;
+      var ag=kpi==='oepe'||kpi==='kvs'?-a.change:a.change;
+      var bg=kpi==='oepe'||kpi==='kvs'?-b.change:b.change;
+      return bg-ag;
+    });
+    html_out+='<div style="background:var(--card);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:16px;">'+
+      '<div style="padding:12px 18px;background:var(--ink2);"><div style="font-family:Playfair Display,serif;font-size:14px;font-weight:700;color:#fff;">'+kpiLabels[kpi]+' Week-over-Week Movement</div></div>'+
+      '<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;min-width:500px;"><thead><tr style="background:#f4f3ef;">'+
+        '<th style="padding:9px 14px;text-align:left;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);">Location</th>'+
+        '<th style="padding:9px 14px;text-align:right;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);">Previous</th>'+
+        '<th style="padding:9px 14px;text-align:right;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);">Current</th>'+
+        '<th style="padding:9px 14px;text-align:center;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);">Change</th>'+
+        '<th style="padding:9px 14px;text-align:right;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);">Entries</th>'+
+      '</tr></thead><tbody>';
+    movements.forEach(function(m){
+      var isGood=m.change===null?null:(kpi==='oepe'||kpi==='kvs'?m.change<0:m.change>0);
+      var cc=m.change===null?'var(--dim)':isGood?'var(--green)':'var(--red)';
+      var arrow=m.change===null?'--':isGood?'&#9650;':'&#9660;';
+      html_out+='<tr style="border-top:1px solid var(--border);">'+
+        '<td style="padding:9px 14px;font-size:12px;font-weight:600;">'+locLabel(m.loc)+'</td>'+
+        '<td style="padding:9px 14px;text-align:right;font-family:DM Mono,monospace;font-size:11px;color:var(--muted);">'+(m.prev!==null?m.prev.toFixed(2):'--')+'</td>'+
+        '<td style="padding:9px 14px;text-align:right;font-family:DM Mono,monospace;font-size:12px;font-weight:700;color:'+kpiColor(m.curr,kpi)+';">'+m.curr.toFixed(2)+'</td>'+
+        '<td style="padding:9px 14px;text-align:center;color:'+cc+';font-weight:700;font-family:DM Mono,monospace;font-size:12px;">'+arrow+' '+(m.change!==null?(m.change>=0?'+':'')+m.change.toFixed(2):'No prev')+'</td>'+
+        '<td style="padding:9px 14px;text-align:right;font-size:11px;color:var(--muted);">'+m.n+'</td>'+
+      '</tr>';
+    });
+    html_out+='</tbody></table></div></div>';
+  }
+
+  // Summary stats
+  var allVals=Array.isArray(arr)?arr.map(function(e){return parseFloat(e[kpi])||0;}).filter(function(v){return v>0;}):[];
+  if(allVals.length){
+    var avg=allVals.reduce(function(a,b){return a+b;},0)/allVals.length;
+    var mn=Math.min.apply(null,allVals);var mx=Math.max.apply(null,allVals);
+    var best=kpi==='oepe'||kpi==='kvs'?mn:mx;
+    var worst=kpi==='oepe'||kpi==='kvs'?mx:mn;
+    html_out+='<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;">'+
+      '<div style="background:var(--card);border:1px solid var(--border);border-radius:9px;padding:12px 14px;"><div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:5px;">Total Entries</div><div style="font-family:DM Mono,monospace;font-size:20px;">'+arr.length+'</div><div style="font-size:10px;color:var(--dim);">'+locs.length+' location'+(locs.length===1?'':'s')+'</div></div>'+
+      '<div style="background:var(--card);border:1px solid var(--border);border-radius:9px;padding:12px 14px;"><div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:5px;">Portfolio Avg</div><div style="font-family:DM Mono,monospace;font-size:20px;">'+avg.toFixed(2)+'</div></div>'+
+      '<div style="background:var(--card);border:1px solid var(--border);border-radius:9px;padding:12px 14px;"><div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:5px;">Best</div><div style="font-family:DM Mono,monospace;font-size:20px;color:var(--green);">'+best.toFixed(2)+'</div></div>'+
+      '<div style="background:var(--card);border:1px solid var(--border);border-radius:9px;padding:12px 14px;"><div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:5px;">Needs Work</div><div style="font-family:DM Mono,monospace;font-size:20px;color:var(--amber);">'+worst.toFixed(2)+'</div></div>'+
+    '</div>';
+  }
+  el.innerHTML=html_out;
+}catch(e){console.warn("renderTrends:",e);var el=document.getElementById("trendsContent");if(el)el.innerHTML="<div style='color:var(--muted);padding:20px;text-align:center;'>Trend data not available.</div>";}}
+
+//    Refresh all logs                                                           
+function refreshAllLogs(){
+  renderLaborLog();renderResultsLog();renderDiagLog();renderGMLog();renderNotesLog();renderTrends();
+}
+
+//    PDF Export                                                                 
+function closePDFOverlay(){
+  var o=document.getElementById('pdfOverlay');if(o)o.remove();
+}
+
+function exportDailyPDF(){
+  var profile=JSON.parse(localStorage.getItem(K_PROFILE)||'{}');
+  var supName=profile.name||'Supervisor';
+  var patch=profile.region||'';
+  var today=new Date();
+  var dateStr=today.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
+  var timeStr=today.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
+  var todayDate=today.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+
+  function todayEntries(key){
+    var log=getLog(key);
+    if(!Array.isArray(log))return [];
+    return log.filter(function(e){return e&&e.ts&&e.ts.indexOf(todayDate)>=0;});
+  }
+
+  var laborToday  =todayEntries(K_LABOR);
+  var resultsToday=todayEntries(K_RESULTS);
+  var diagToday   =todayEntries(K_DIAG);
+  var gmToday     =todayEntries(K_GM);
+  var notesToday  =todayEntries(K_NOTES);
+
+  var stepNames=['Labor Setup','Evaluate Results','Diagnose System','Focus 80/20','Develop GM'];
+  var stepIds  =['cl1','cl2','cl3','cl4','cl5'];
+  var stepMax  =[5,4,4,4,4];
+  var stepStatus=stepIds.map(function(id,i){
+    var done=0;for(var j=0;j<stepMax[i];j++){if(checks[id+'_'+j])done++;}
+    return {name:stepNames[i],done:done,total:stepMax[i],complete:done===stepMax[i]};
+  });
+  var pct=Math.round(Object.keys(checks).length/21*100);
+  var focus=JSON.parse(localStorage.getItem(K_FOCUS)||'{}');
+
+  var C={gold:'#c9a84c',green:'#1c6b3a',red:'#b83232',blue:'#1e4fa8',ink:'#0d0d14',muted:'#6b6760',border:'#e2ddd4'};
+
+  function sh(title,color){
+    return '<div style="background:'+color+';padding:9px 16px;margin:18px 0 8px;border-radius:5px;">'+
+      '<div style="font-family:Georgia,serif;font-size:12px;font-weight:700;color:#fff;text-transform:uppercase;letter-spacing:.1em;">'+title+'</div></div>';
+  }
+  function kv(label,val){
+    if(!val)return '';
+    return '<div style="display:flex;gap:8px;padding:4px 0;border-bottom:1px solid '+C.border+';">'+
+      '<div style="font-size:11px;font-weight:700;color:'+C.muted+';min-width:130px;text-transform:uppercase;letter-spacing:.05em;padding-top:1px;flex-shrink:0;">'+label+'</div>'+
+      '<div style="font-size:12px;color:'+C.ink+';flex:1;line-height:1.5;">'+val+'</div></div>';
+  }
+
+  var body='';
+  body+='<div style="background:'+C.ink+';padding:24px 28px;margin-bottom:20px;border-radius:6px;">'+
+    '<div style="font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:'+C.gold+';margin-bottom:5px;">Supervisor Daily Report</div>'+
+    '<div style="font-family:Georgia,serif;font-size:22px;font-weight:700;color:#fff;margin-bottom:3px;">'+supName+'</div>'+
+    (patch?'<div style="font-size:11px;color:rgba(255,255,255,0.45);margin-bottom:10px;">'+patch+'</div>':'')+
+    '<div style="display:flex;gap:12px;margin-top:10px;">'+
+      '<div style="background:rgba(255,255,255,0.07);border-radius:5px;padding:7px 12px;text-align:center;"><div style="font-family:monospace;font-size:16px;font-weight:700;color:#fff;">'+pct+'%</div><div style="font-size:9px;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:.08em;margin-top:2px;">Completion</div></div>'+
+      '<div style="background:rgba(255,255,255,0.07);border-radius:5px;padding:7px 12px;text-align:center;"><div style="font-family:monospace;font-size:16px;font-weight:700;color:#fff;">'+stepStatus.filter(function(s){return s.complete;}).length+' / 5</div><div style="font-size:9px;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:.08em;margin-top:2px;">Steps Done</div></div>'+
+      '<div style="background:rgba(255,255,255,0.07);border-radius:5px;padding:7px 12px;text-align:center;"><div style="font-family:monospace;font-size:16px;font-weight:700;color:#fff;">'+(laborToday.length+resultsToday.length+diagToday.length+gmToday.length)+'</div><div style="font-size:9px;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:.08em;margin-top:2px;">Entries Logged</div></div>'+
+    '</div>'+
+    '<div style="font-size:10px;color:rgba(255,255,255,0.28);margin-top:10px;">Generated '+dateStr+' at '+timeStr+'</div>'+
+  '</div>';
+
+  body+=sh('Daily Step Completion',C.ink);
+  body+='<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:8px;">';
+  stepStatus.forEach(function(s){
+    var col=s.complete?C.green:s.done>0?C.gold:C.red;
+    body+='<div style="border:1px solid '+col+';border-radius:5px;padding:7px;text-align:center;">'+
+      '<div style="font-size:14px;color:'+col+';">'+(s.complete?'&#10003;':s.done>0?'~':'&#10005;')+'</div>'+
+      '<div style="font-size:10px;font-weight:700;color:'+col+';margin-top:3px;">'+s.name+'</div>'+
+      '<div style="font-size:9px;color:'+C.muted+';">'+s.done+'/'+s.total+'</div></div>';
+  });
+  body+='</div>';
+
+  if(focus.sp1||focus.sp2||focus.lg1||focus.lg2){
+    body+=sh('80/20 Focus Priorities',C.blue);
+    if(focus.sp1)body+=kv('System Problem 1',focus.sp1+(focus.spt1?' ['+focus.spt1+']':'')+(focus.spr1?' -- '+focus.spr1:''));
+    if(focus.sp2)body+=kv('System Problem 2',focus.sp2+(focus.spt2?' ['+focus.spt2+']':''));
+    if(focus.lg1)body+=kv('Leadership Gap 1',focus.lg1+(focus.lgt1?' ['+focus.lgt1+']':''));
+    if(focus.lg2)body+=kv('Leadership Gap 2',focus.lg2+(focus.lgt2?' ['+focus.lgt2+']':''));
+  }
+
+  if(laborToday.length){
+    body+=sh('Labor Reviews ('+laborToday.length+')',C.green);
+    laborToday.forEach(function(e){
+      var diff=e.hrs-e.vlh;
+      body+='<div style="background:#f9f8f4;border:1px solid '+C.border+';border-radius:5px;padding:10px 12px;margin-bottom:7px;">'+
+        '<div style="font-family:Georgia,serif;font-size:13px;font-weight:700;margin-bottom:7px;">'+locLabel(e.loc)+(e.week?' -- Week of '+e.week:'')+'</div>'+
+        kv('Scheduled TPPH',e.tpph)+
+        kv('Hours / VLH',(e.hrs||'-')+'h / '+(e.vlh||'-')+'h'+(e.vlh?' ('+(diff>=0?'+':'')+Math.round(diff)+'h)':''))+
+        kv('Unassigned Shifts',e.unassigned)+kv('Peak Coverage',e.peak)+kv('Notes',e.notes)+
+        '<div style="font-size:9px;color:'+C.muted+';margin-top:5px;">'+e.ts+'</div></div>';
+    });
+  }
+
+  if(resultsToday.length){
+    body+=sh('Daily Results ('+resultsToday.length+')',C.blue);
+    resultsToday.forEach(function(e){
+      var sv=e.sact-e.sproj;var tv=e.tpphA-e.tpphT;
+      body+='<div style="background:#f9f8f4;border:1px solid '+C.border+';border-radius:5px;padding:10px 12px;margin-bottom:7px;">'+
+        '<div style="font-family:Georgia,serif;font-size:13px;font-weight:700;margin-bottom:7px;">'+locLabel(e.loc)+(e.date?' -- '+e.date:'')+'</div>'+
+        '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:7px;">'+
+          (e.sproj?'<div style="text-align:center;padding:5px;background:'+(sv>=0?'#e8f4ed':'#fdeaea')+';border-radius:4px;"><div style="font-family:monospace;font-size:12px;font-weight:700;color:'+(sv>=0?C.green:C.red)+';">'+(sv>=0?'+$':'-$')+Math.abs(sv).toFixed(0)+'</div><div style="font-size:9px;color:'+C.muted+';">Sales vs Proj</div></div>':'')+
+          (e.tpphA?'<div style="text-align:center;padding:5px;background:'+(tv>=0?'#e8f4ed':'#fdeaea')+';border-radius:4px;"><div style="font-family:monospace;font-size:12px;font-weight:700;color:'+(tv>=0?C.green:C.red)+';">'+(tv>=0?'+':'')+tv.toFixed(2)+'</div><div style="font-size:9px;color:'+C.muted+';">TPPH vs Target</div></div>':'')+
+          (e.oepe?'<div style="text-align:center;padding:5px;background:#f4f3ef;border-radius:4px;"><div style="font-family:monospace;font-size:12px;font-weight:700;color:'+(parseInt(e.oepe)<=120?C.green:parseInt(e.oepe)<=150?C.gold:C.red)+';">'+e.oepe+'s</div><div style="font-size:9px;color:'+C.muted+';">OEPE</div></div>':'')+
+          (e.kvs?'<div style="text-align:center;padding:5px;background:#f4f3ef;border-radius:4px;"><div style="font-family:monospace;font-size:12px;font-weight:700;">'+e.kvs+'s</div><div style="font-size:9px;color:'+C.muted+';">KVS</div></div>':'')+
+        '</div>'+
+        (e.oepeB||e.oepeL||e.oepeD?kv('OEPE Dayparts','B:'+e.oepeB+'s  L:'+e.oepeL+'s  D:'+e.oepeD+'s'):'')+
+        (e.kiosk?kv('Kiosk %',e.kiosk+'%'):'')+kv('Operations Notes',e.ops)+
+        '<div style="font-size:9px;color:'+C.muted+';margin-top:5px;">'+e.ts+'</div></div>';
+    });
+  }
+
+  if(diagToday.length){
+    body+=sh('Diagnoses ('+diagToday.length+')',C.red);
+    diagToday.forEach(function(e){
+      body+='<div style="background:#f9f8f4;border:1px solid '+C.border+';border-radius:5px;padding:10px 12px;margin-bottom:7px;">'+
+        '<div style="font-family:Georgia,serif;font-size:13px;font-weight:700;margin-bottom:7px;">'+locLabel(e.loc)+(e.type?' -- '+e.type:'')+'</div>'+
+        kv('Symptom',e.symptom)+kv('Root Cause',e.root)+kv('System Break',e.brk)+kv('Owner',e.owner)+
+        '<div style="font-size:9px;color:'+C.muted+';margin-top:5px;">'+e.ts+'</div></div>';
+    });
+  }
+
+  if(gmToday.length){
+    body+=sh('GM Conversations ('+gmToday.length+')','#7a5a0a');
+    gmToday.forEach(function(e){
+      body+='<div style="background:#f9f8f4;border:1px solid '+C.border+';border-radius:5px;padding:10px 12px;margin-bottom:7px;">'+
+        '<div style="font-family:Georgia,serif;font-size:13px;font-weight:700;margin-bottom:5px;">'+(e.gm||locLabel(e.loc))+' -- '+locLabel(e.loc)+'</div>'+
+        '<div style="display:flex;gap:6px;margin-bottom:7px;">'+
+          (e.clarity?'<span style="padding:2px 7px;border-radius:10px;font-size:10px;font-weight:700;background:'+(e.clarity==='Yes'?'#e8f4ed':e.clarity==='Partial'?'#fdf4e0':'#fdeaea')+';color:'+(e.clarity==='Yes'?C.green:e.clarity==='Partial'?C.gold:C.red)+';">Clarity: '+e.clarity+'</span>':'')+
+          (e.own?'<span style="padding:2px 7px;border-radius:10px;font-size:10px;font-weight:700;background:'+(e.own==='Yes'?'#e8f4ed':e.own==='Partial'?'#fdf4e0':'#fdeaea')+';color:'+(e.own==='Yes'?C.green:e.own==='Partial'?C.gold:C.red)+';">Ownership: '+e.own+'</span>':'')+
+        '</div>'+
+        kv('What happened',e.q1)+kv('Will change',e.q4)+kv('Follow-up',e.followup)+
+        '<div style="font-size:9px;color:'+C.muted+';margin-top:5px;">'+e.ts+'</div></div>';
+    });
+  }
+
+  if(notesToday.length){
+    body+=sh('Daily Notes','#555');
+    notesToday.forEach(function(e){
+      body+='<div style="background:#fffde7;border:1px solid #f0e07a;border-radius:5px;padding:10px 12px;margin-bottom:7px;">'+
+        (e.loc&&e.loc!=='ALL'?'<div style="font-size:10px;font-weight:700;color:#8a7000;margin-bottom:5px;">'+locLabel(e.loc)+'</div>':'<div style="font-size:10px;font-weight:700;color:#8a7000;margin-bottom:5px;">Patch-Wide</div>')+
+        kv('Observation',e.main)+kv('Pattern',e.pattern)+kv('Recognition',e.recog)+kv('Tomorrow',e.tmrw)+
+        '<div style="font-size:9px;color:'+C.muted+';margin-top:5px;">'+e.ts+'</div></div>';
+    });
+  }
+
+  if(!laborToday.length&&!resultsToday.length&&!diagToday.length&&!gmToday.length&&!notesToday.length){
+    body+='<div style="text-align:center;padding:28px;color:'+C.muted+';font-size:13px;">No entries logged today. Complete the daily guide and save entries to include them in the report.</div>';
+  }
+
+  body+='<div style="margin-top:24px;padding-top:12px;border-top:2px solid '+C.border+';text-align:center;">'+
+    '<div style="font-family:Georgia,serif;font-size:11px;font-style:italic;color:'+C.muted+'-">"When ownership is scaled, performance stops being managed and starts being multiplied."</div>'+
+    '<div style="font-size:10px;color:'+C.muted+';margin-top:3px;">John Abbate -- Multiplying Ownership</div></div>';
+
+  // Build overlay with DOM -- no string quote conflicts
+  var overlay=document.getElementById('pdfOverlay');
+  if(overlay)overlay.remove();
+  overlay=document.createElement('div');
+  overlay.id='pdfOverlay';
+  overlay.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,0.65);z-index:99999;display:flex;justify-content:center;overflow-y:auto;padding:20px 0;';
+
+  var outer=document.createElement('div');
+  outer.style.cssText='background:#f7f5f0;width:100%;max-width:820px;border-radius:8px;overflow:hidden;align-self:flex-start;';
+
+  var toolbar=document.createElement('div');
+  toolbar.style.cssText='position:sticky;top:0;background:#1a1a2e;padding:12px 20px;display:flex;justify-content:space-between;align-items:center;z-index:10;';
+
+  var titleEl=document.createElement('div');
+  titleEl.style.cssText='font-size:13px;font-weight:600;color:#fff;font-family:DM Sans,sans-serif;';
+  titleEl.textContent='Daily Report -- '+supName+' -- '+dateStr;
+
+  var btnWrap=document.createElement('div');
+  btnWrap.style.cssText='display:flex;gap:8px;';
+
+  var printBtn=document.createElement('button');
+  printBtn.style.cssText='background:#c9a84c;color:#0d0d14;border:none;padding:8px 16px;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;';
+  printBtn.textContent='Print / Save as PDF';
+  printBtn.onclick=function(){
+    var fullHTML='<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Daily Report</title>'+
+      '<style>*{box-sizing:border-box;margin:0;padding:0;}body{font-family:Georgia,serif;background:#fff;color:#0d0d14;padding:24px 28px;max-width:740px;margin:0 auto;font-size:13px;}@media print{body{padding:0;}@page{margin:12mm;size:A4;}}</style>'+
+      '</head><body>'+body+'</body></html>';
+    var blob=new Blob([fullHTML],{type:'text/html'});
+    var url=URL.createObjectURL(blob);
+    var a=document.createElement('a');
+    a.href=url;a.target='_blank';a.rel='noopener';
+    document.body.appendChild(a);a.click();
+    document.body.removeChild(a);
+    setTimeout(function(){URL.revokeObjectURL(url);},5000);
+  };
+
+  var closeBtn=document.createElement('button');
+  closeBtn.style.cssText='background:rgba(255,255,255,0.15);color:#fff;border:none;padding:8px 14px;border-radius:6px;font-size:12px;cursor:pointer;font-family:DM Sans,sans-serif;';
+  closeBtn.textContent='Close';
+  closeBtn.onclick=closePDFOverlay;
+
+  btnWrap.appendChild(printBtn);btnWrap.appendChild(closeBtn);
+  toolbar.appendChild(titleEl);toolbar.appendChild(btnWrap);
+
+  var content=document.createElement('div');
+  content.style.cssText='padding:28px 32px;font-family:Georgia,serif;color:#0d0d14;';
+  content.innerHTML=body;
+
+  outer.appendChild(toolbar);outer.appendChild(content);
+  overlay.appendChild(outer);
+  document.body.appendChild(overlay);
+}
+
+// Init
+document.addEventListener('DOMContentLoaded',function(){buildLocBar();renderLocSetup();});
+</script>
+
+</body>
+</html>
