@@ -366,6 +366,13 @@ select{cursor:pointer;}
 .nav-btn.setup-btn.active{color:#60a5fa;border-bottom-color:#60a5fa;}
 .btn-blue{background:#1a5fa8;color:#fff;}
 .btn-blue:hover{background:#1a3f8a;}
+
+.diag-q{font-size:13px;color:var(--ink);padding:9px 14px;border-left:3px solid var(--border);margin-bottom:6px;background:var(--surface);border-radius:0 6px 6px 0;line-height:1.5;}
+.diag-q::before{content:"Q  ";font-weight:700;color:var(--muted);font-size:11px;}
+.diag-note{margin-top:14px;padding:10px 14px;background:var(--ink2);border-radius:6px;font-size:12px;color:rgba(255,255,255,0.6);line-height:1.65;font-style:italic;}
+.diag-q{font-size:13px;color:var(--ink);padding:9px 14px;border-left:3px solid var(--border);margin-bottom:6px;background:var(--surface);border-radius:0 6px 6px 0;line-height:1.5;}
+.diag-q::before{content:"Q  ";font-weight:700;color:var(--muted);font-size:11px;}
+.diag-note{margin-top:14px;padding:10px 14px;background:var(--ink2);border-radius:6px;font-size:12px;color:rgba(255,255,255,0.6);line-height:1.65;font-style:italic;}
 </style>
 </head>
 <body>
@@ -701,20 +708,70 @@ select{cursor:pointer;}
 
   <div class="sec">Diagnosis Framework</div>
 
-  <div style="background:var(--ink2);border-radius:12px;padding:20px 24px;margin-bottom:20px;">
-    <div style="font-family:Playfair Display,serif;font-size:16px;font-weight:700;color:var(--gold);margin-bottom:10px;">Diagnosis Order — Non-Negotiable</div>
+  <div style="background:var(--ink2);border-radius:10px;padding:18px 22px;margin-bottom:12px;">
+    <div style="font-family:Playfair Display,serif;font-size:15px;font-weight:700;color:var(--gold);margin-bottom:10px;">Diagnosis Order &mdash; Non-Negotiable <span style="font-size:11px;color:rgba(255,255,255,0.35);font-family:DM Sans,sans-serif;font-weight:400;">Click each layer to expand diagnostic questions</span></div>
     <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
-      <span style="background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.3);padding:6px 16px;border-radius:20px;font-size:13px;font-weight:600;color:var(--gold);">Labor</span>
+      <button onclick="toggleDiagPanel('labor')" id="dpill-labor" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);padding:6px 16px;border-radius:20px;font-size:13px;font-weight:600;color:rgba(255,255,255,0.5);cursor:pointer;">Labor</button>
       <span style="color:rgba(255,255,255,0.3);font-size:18px;">&#8594;</span>
-      <span style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);padding:6px 16px;border-radius:20px;font-size:13px;font-weight:600;color:rgba(255,255,255,0.7);">Operations</span>
+      <button onclick="toggleDiagPanel('operations')" id="dpill-operations" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);padding:6px 16px;border-radius:20px;font-size:13px;font-weight:600;color:rgba(255,255,255,0.7);cursor:pointer;">Operations</button>
       <span style="color:rgba(255,255,255,0.3);font-size:18px;">&#8594;</span>
-      <span style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);padding:6px 16px;border-radius:20px;font-size:13px;font-weight:600;color:rgba(255,255,255,0.7);">Service</span>
+      <button onclick="toggleDiagPanel('service')" id="dpill-service" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);padding:6px 16px;border-radius:20px;font-size:13px;font-weight:600;color:rgba(255,255,255,0.7);cursor:pointer;">Service</button>
       <span style="color:rgba(255,255,255,0.3);font-size:18px;">&#8594;</span>
-      <span style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);padding:6px 16px;border-radius:20px;font-size:13px;font-weight:600;color:rgba(255,255,255,0.7);">Sales</span>
+      <button onclick="toggleDiagPanel('sales')" id="dpill-sales" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);padding:6px 16px;border-radius:20px;font-size:13px;font-weight:600;color:rgba(255,255,255,0.7);cursor:pointer;">Sales</button>
     </div>
-    <div style="margin-top:14px;font-size:12px;color:rgba(255,255,255,0.4);line-height:1.7;">
-      Labor = Foundation &nbsp;&nbsp;|&nbsp;&nbsp; Operations = Execution &nbsp;&nbsp;|&nbsp;&nbsp; Service = Experience &nbsp;&nbsp;|&nbsp;&nbsp; Sales = Outcome
-    </div>
+    <div style="margin-top:11px;font-size:11px;color:rgba(255,255,255,0.35);">Labor = Foundation &nbsp;|&nbsp; Operations = Execution &nbsp;|&nbsp; Service = Experience &nbsp;|&nbsp; Sales = Outcome</div>
+  </div>
+
+  <div id="dpanel-labor" style="display:none;background:var(--card);border:2px solid var(--gold);border-radius:10px;padding:18px 22px;margin-bottom:12px;">
+    <div style="font-family:Playfair Display,serif;font-size:16px;font-weight:700;color:var(--gold);margin-bottom:14px;">Labor Diagnostic Questions</div>
+    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:10px;">Start here -- labor is the foundation of every other outcome</div>
+    <div class="diag-q">Was the schedule built 7+ days in advance?</div>
+    <div class="diag-q">Did scheduled hours align to VLH guidelines?</div>
+    <div class="diag-q">Was the scheduled TPPH realistic given sales projections?</div>
+    <div class="diag-q">Were all shifts filled -- no unassigned openings?</div>
+    <div class="diag-q">Were peak periods correctly staffed by position?</div>
+    <div class="diag-q">Did actual hours match the schedule, or did the GM deviate?</div>
+    <div class="diag-q">What planning decision created this outcome?</div>
+    <div class="diag-note">If labor is off, stop here. Fix the labor plan before diagnosing operations or service.</div>
+  </div>
+
+  <div id="dpanel-operations" style="display:none;background:var(--card);border:2px solid var(--blue);border-radius:10px;padding:18px 22px;margin-bottom:12px;">
+    <div style="font-family:Playfair Display,serif;font-size:16px;font-weight:700;color:var(--blue);margin-bottom:14px;">Operations Diagnostic Questions</div>
+    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:10px;">Only diagnose operations if labor is confirmed correct</div>
+    <div class="diag-q">Was deployment executed per the schedule -- right positions, right times?</div>
+    <div class="diag-q">Were breaks taken on time and covered correctly?</div>
+    <div class="diag-q">Did the shift manager adjust deployment as volume changed?</div>
+    <div class="diag-q">Were crew positioned for peak demand windows?</div>
+    <div class="diag-q">Was there a clear shift manager running the floor?</div>
+    <div class="diag-q">Did the team know their roles and stay in position?</div>
+    <div class="diag-q">What execution decision during the shift created this result?</div>
+    <div class="diag-note">Operations problems are execution failures. Find the decision that broke the system.</div>
+  </div>
+
+  <div id="dpanel-service" style="display:none;background:var(--card);border:2px solid var(--green);border-radius:10px;padding:18px 22px;margin-bottom:12px;">
+    <div style="font-family:Playfair Display,serif;font-size:16px;font-weight:700;color:var(--green);margin-bottom:14px;">Service Diagnostic Questions</div>
+    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:10px;">Only diagnose service if labor and operations are confirmed correct</div>
+    <div class="diag-q">What was OEPE by daypart -- where did it break down?</div>
+    <div class="diag-q">What was KVS time -- was the kitchen keeping pace?</div>
+    <div class="diag-q">Were guests backing up at a specific channel (DT, kiosk, counter, delivery)?</div>
+    <div class="diag-q">Was the bottleneck in taking the order, making the food, or handing out?</div>
+    <div class="diag-q">Did delivery orders impact drive-thru or counter speed?</div>
+    <div class="diag-q">Were R2P targets met during peak hours?</div>
+    <div class="diag-q">Is this consistent across days or isolated to specific shifts?</div>
+    <div class="diag-note">Service problems are symptoms. If labor and operations are right and service is still slow, find the specific friction point in the guest journey.</div>
+  </div>
+
+  <div id="dpanel-sales" style="display:none;background:var(--card);border:2px solid var(--red);border-radius:10px;padding:18px 22px;margin-bottom:20px;">
+    <div style="font-family:Playfair Display,serif;font-size:16px;font-weight:700;color:var(--red);margin-bottom:14px;">Sales Diagnostic Questions</div>
+    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:10px;">Sales is an outcome -- diagnose what drove it, not the number itself</div>
+    <div class="diag-q">Was the variance a demand problem (fewer guests) or a check problem (lower APC)?</div>
+    <div class="diag-q">Did transaction count drop, average check drop, or both?</div>
+    <div class="diag-q">Was there a local demand factor -- weather, event, competitor promotion?</div>
+    <div class="diag-q">Did slow service cause guests to leave or reduce orders?</div>
+    <div class="diag-q">Were suggestive selling and upselling executed consistently?</div>
+    <div class="diag-q">Was the sales projection realistic -- or was it set too high?</div>
+    <div class="diag-q">Is this a one-time miss or a multi-week trend?</div>
+    <div class="diag-note">If sales are down and labor, operations, and service are all correct -- this is a demand problem, not an ops fix. Strategy and traffic drivers are the lever.</div>
   </div>
 
   <div class="sec">Problem Classification Matrix</div>
@@ -2086,6 +2143,39 @@ function exportDailyPDF(){
   overlay.appendChild(outer);
   document.body.appendChild(overlay);
 }
+
+function toggleDiagPanel(layer){
+  var layers=['labor','operations','service','sales'];
+  var activeColors={labor:'rgba(201,168,76,0.25)',operations:'rgba(30,79,168,0.25)',service:'rgba(28,107,58,0.25)',sales:'rgba(184,50,50,0.25)'};
+  var activeBorders={labor:'rgba(201,168,76,0.8)',operations:'rgba(30,79,168,0.8)',service:'rgba(28,107,58,0.8)',sales:'rgba(184,50,50,0.8)'};
+  var activeText={labor:'var(--gold)',operations:'#60a5fa',service:'#4cd98a',sales:'#ff8a8a'};
+  var inactiveStyle={background:'rgba(255,255,255,0.06)',border:'rgba(255,255,255,0.12)',color:'rgba(255,255,255,0.5)'};
+
+  layers.forEach(function(p){
+    var panel=document.getElementById('dpanel-'+p);
+    var pill=document.getElementById('dpill-'+p);
+    if(!panel||!pill)return;
+    if(p===layer){
+      var isOpen=panel.style.display!=='none';
+      panel.style.display=isOpen?'none':'block';
+      if(isOpen){
+        pill.style.background=inactiveStyle.background;
+        pill.style.borderColor=inactiveStyle.border;
+        pill.style.color=inactiveStyle.color;
+      } else {
+        pill.style.background=activeColors[p];
+        pill.style.borderColor=activeBorders[p];
+        pill.style.color=activeText[p];
+      }
+    } else {
+      panel.style.display='none';
+      pill.style.background=inactiveStyle.background;
+      pill.style.borderColor=inactiveStyle.border;
+      pill.style.color=inactiveStyle.color;
+    }
+  });
+}
+
 
 // Init
 document.addEventListener('DOMContentLoaded',function(){buildLocBar();renderLocSetup();});
