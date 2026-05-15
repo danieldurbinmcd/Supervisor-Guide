@@ -640,7 +640,7 @@ select{cursor:pointer;}
     <div class="input-grid">
       <div class="input-group">
         <label>Location</label>
-        <input type="text" id="r_loc" placeholder="Location number / name">
+        <select id="r_loc"><option value="">-- Select Location --</option></select>
       </div>
       <div class="input-group">
         <label>Date</label>
@@ -1313,9 +1313,9 @@ function populateSelects(){
   var ids=['l_loc','r_loc','d_loc','gm_loc','n_loc','t_locFilter'];
   ids.forEach(function(id){
     var sel=document.getElementById(id);
-    if(!sel)return;
+    if(!sel||sel.tagName!=='SELECT')return;
     var cur=sel.value;
-    while(sel.options.length>1)sel.remove(1);
+    while(sel.options&&sel.options.length>1)sel.remove(1);
     locsList.forEach(function(loc){
       var opt=document.createElement('option');
       opt.value=loc.nsn;
